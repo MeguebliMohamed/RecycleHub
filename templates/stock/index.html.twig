@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock index{% endblock %}
+
+{% block body %}
+    <h1>Stock index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Prixunit</th>
+                <th>Quantite</th>
+                <th>Unite</th>
+                <th>Dateajout</th>
+                <th>Etat</th>
+                <th>Imageurl</th>
+                <th>Idappeloffre</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.id }}</td>
+                <td>{{ stock.type }}</td>
+                <td>{{ stock.nom }}</td>
+                <td>{{ stock.description }}</td>
+                <td>{{ stock.prixunit }}</td>
+                <td>{{ stock.quantite }}</td>
+                <td>{{ stock.unite }}</td>
+                <td>{{ stock.dateajout ? stock.dateajout|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ stock.etat }}</td>
+                <td>{{ stock.imageurl }}</td>
+                <td>{{ stock.idappeloffre }}</td>
+                <td>{{ stock.latitude }}</td>
+                <td>{{ stock.longitude }}</td>
+                <td>
+                    <a href="{{ path('app_stock_show', {'id': stock.id}) }}">show</a>
+                    <a href="{{ path('app_stock_edit', {'id': stock.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_stock_new') }}">Create new</a>
+{% endblock %}
