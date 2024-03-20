@@ -78,4 +78,14 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+    #[Route('/{id}', name: 'login', methods: ['POST'])]
+    public function login() {
+        return $this->render('user/login.html.twig');
+    }
+
+
+
 }
