@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AppelsoffresRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: "appelsoffres")]
@@ -16,13 +15,18 @@ class Appelsoffres
     private int $id;
 
     #[ORM\Column(name: "titre", type: "string", length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "Le titre ne peut pas être vide.")]
     private ?string $titre;
 
     #[ORM\Column(name: "description", type: "text", length: 65535, nullable: true)]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
     private ?string $description;
 
+    #[Assert\NotNull(message: "Le prix initial ne peut pas être vide.")]
+    #[Assert\GreaterThan(value: 0, message: "Le prix initial doit être supérieur à zéro.")]
     #[ORM\Column(name: "prixInitial", type: "float", precision: 10, scale: 0, nullable: false)]
-    private float $prixinitial = 0;
+    private float $prixinitial = 0.000;
+
 
     #[ORM\Column(name: "prixFinal", type: "float", precision: 10, scale: 0, nullable: false)]
     private float $prixfinal = 0;
@@ -30,6 +34,8 @@ class Appelsoffres
     #[ORM\Column(name: "date_debut", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $dateDebut;
 
+    #[Assert\NotNull(message: "La date de fin ne peut pas être vide.")]
+    #[Assert\GreaterThan(propertyPath: "date_debut", message: "La date de fin doit être postérieure à la date de début.")]
     #[ORM\Column(name: "date_fin", type: "datetime", nullable: true)]
     private ?\DateTimeInterface $dateFin;
 

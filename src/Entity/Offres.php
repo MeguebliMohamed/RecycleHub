@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\OffresRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: "offres")]
@@ -15,13 +14,23 @@ class Offres
     #[ORM\Column(name: "idOffre", type: "integer", nullable: false)]
     private int $idoffre;
 
-    #[ORM\Column(name: "montant", type: "float", precision: 10, scale: 0, nullable: true)]
-    private ?float $montant;
+    #[ORM\Column(name: "montant", type: "float", precision: 10, scale: 0, nullable: false)]
+    #[Assert\NotNull(message: "Le montant ne peut pas être nul.")]
+    #[Assert\GreaterThan(
+        value: 0,
+        message: "Le montant doit être supérieur à zéro."
+    )]
+    private float $montant;
 
     #[ORM\Column(name: "dateSoumission", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $datesoumission;
 
     #[ORM\Column(name: "description", type: "string", length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "La description ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $description;
 
     #[ORM\Column(name: "etat", type: "string", length: 20, nullable: true, options: ["default" => "En cours"])]
@@ -35,6 +44,7 @@ class Offres
 
     #[ORM\ManyToOne(targetEntity: "Appelsoffres")]
     #[ORM\JoinColumn(name: "idAppelOffre", referencedColumnName: "id")]
+    #[Assert\NotNull(message: "L'appel d'offres doit être spécifié.")]
     private ?Appelsoffres $idappeloffre;
 
     #[ORM\ManyToOne(targetEntity: "User")]

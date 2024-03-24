@@ -20,8 +20,7 @@ class AppelsoffresType extends AbstractType
             ->add('dateFin')
             ->add('etat')
             ->add('etatpayment')
-            ->add('collecteur')
-        ;
+            ->add('collecteur');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

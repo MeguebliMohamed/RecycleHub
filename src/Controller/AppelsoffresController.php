@@ -71,7 +71,7 @@ class AppelsoffresController extends AbstractController
     #[Route('/{id}', name: 'app_appelsoffres_delete', methods: ['POST'])]
     public function delete(Request $request, Appelsoffres $appelsoffre, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$appelsoffre->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $appelsoffre->getId(), $request->request->get('_token'))) {
             $entityManager->remove($appelsoffre);
             $entityManager->flush();
         }

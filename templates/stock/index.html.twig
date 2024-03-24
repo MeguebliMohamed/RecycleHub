@@ -1,57 +1,59 @@
-{% extends './FrontTemplate.html.twig' %}
+{% extends '/stock/StockFrontTemplate.html.twig' %}
 
 {% block title %}Stock index{% endblock %}
 
 {% block body %}
-    <h1>Stock index</h1>
-
-    <table class="table">
-        <thead>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="{{ asset('mohamed_Css/table.css') }}">
+    <div class="page-container">
+        <div class="table-title">
+            <h1>Stock index</h1>
+        </div>
+    </div>
+    <div class="page-container">
+        <table> {# Ajoutez la classe custom-table ici #}
+            <thead>
             <tr>
-                <th>Id</th>
                 <th>Type</th>
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Prixunit</th>
                 <th>Quantite</th>
-                <th>Unite</th>
-                <th>Dateajout</th>
-                <th>Etat</th>
-                <th>Imageurl</th>
-                <th>Idappeloffre</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for stock in stocks %}
-            <tr>
-                <td>{{ stock.id }}</td>
-                <td>{{ stock.type }}</td>
-                <td>{{ stock.nom }}</td>
-                <td>{{ stock.description }}</td>
-                <td>{{ stock.prixunit }}</td>
-                <td>{{ stock.quantite }}</td>
-                <td>{{ stock.unite }}</td>
-                <td>{{ stock.dateajout ? stock.dateajout|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ stock.etat }}</td>
-                <td>{{ stock.imageurl }}</td>
-                <td>{{ stock.idappeloffre }}</td>
-                <td>{{ stock.latitude }}</td>
-                <td>{{ stock.longitude }}</td>
-                <td>
-                    <a href="{{ path('app_stock_show', {'id': stock.id}) }}">show</a>
-                    <a href="{{ path('app_stock_edit', {'id': stock.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="14">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock.type }}</td>
+                    <td>{{ stock.nom }}</td>
+                    <td>{{ stock.description }}</td>
+                    <td>{{ stock.prixunit }}</td>
+                    <td>{{ stock.quantite }} {{ stock.unite }}</td>
+                    <td>
+                        <a href="{{ path('app_stock_edit', {'id': stock.id}) }}" class="button-with-image" title="Modifier">
+                            <img src="/mohamed_Css/img/edit.png" style="width: 40px; height: 35px;">
+                        </a>
 
-    <a href="{{ path('app_stock_new') }}">Create new</a>
+
+                        <a href="{{ path('app_stock_show', {'id': stock.id}) }}" class="button-with-image" title="Info">
+                            <img src="/mohamed_Css/img/information.png" style="width: 40px; height: 35px;">
+                        </a>
+
+                        <a href="{{ path('app_stock_delete', {'id': stock.id}) }}" class="button-with-image" title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this item?');">
+                            <img src="/mohamed_Css/img/bin.png" style="width: 40px; height: 35px;">
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="12">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div> {# Fin de la div .page-container #}
+        <a href="{{ path('app_stock_new') }}" class="create-new-link">Create new</a>
+
 {% endblock %}

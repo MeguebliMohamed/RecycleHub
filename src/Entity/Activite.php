@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ActiviteRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: "activite")]
@@ -19,7 +18,10 @@ class Activite
     private \DateTime $dateParcours;
 
     #[ORM\Column(name: "date_fin", type: "datetime", nullable: true)]
-    private ?\DateTime $dateFin;
+    #[Assert\NotNull(message: "La date de fin ne peut pas être vide.")]
+    #[Assert\GreaterThan(propertyPath: "dateDebut", message: "La date de fin doit être postérieure à la date de début.")]
+    #[Assert\LessThanOrEqual(propertyPath: "dateDebut", value: "+72 hours", message: "La date de fin ne peut pas être plus de 72 heures après la date de début.")]
+    private ?\DateTimeInterface $dateFin;
 
     #[ORM\Column(name: "itineraire", type: "integer", nullable: true)]
     private ?int $itineraire;
@@ -28,9 +30,12 @@ class Activite
     #[ORM\JoinColumn(name: "utilisateur_id", referencedColumnName: "id")]
     private User $utilisateur;
 
+
     #[ORM\ManyToOne(targetEntity: "Stock")]
     #[ORM\JoinColumn(name: "stock_id", referencedColumnName: "id")]
+    #[Assert\NotBlank(message: "Vous devez choisir au moins un déchet pour collecter.")]
     private Stock $stock;
+
 
     // Getters and setters
 

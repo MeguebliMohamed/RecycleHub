@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\StockRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ORM\Table(name: "stock")]
@@ -16,23 +17,32 @@ class Stock
     #[ORM\Column(name: "id", type: "integer", nullable: false)]
     private ?int $id = null;
 
-    #[ORM\Column(name: "type", type: "string", length: 255, nullable: true)]
+    #[ORM\Column(name: "type", type: "string", length: 255)]
+    #[Assert\NotNull(message: "Veuillez spécifier le type.")]
     private ?string $type;
 
-    #[ORM\Column(name: "nom", type: "string", length: 255, nullable: true)]
+    #[ORM\Column(name: "nom", type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     private ?string $nom;
 
     #[ORM\Column(name: "description", type: "text", length: 65535, nullable: true)]
     private ?string $description;
 
-    #[ORM\Column(name: "prixUnit", type: "decimal", precision: 10, scale: 2, nullable: true)]
+    #[ORM\Column(name: "prixUnit", type: "decimal", precision: 10, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(value: 0, message: "Le prix doit être supérieur à zéro.")]
     private ?string $prixunit;
 
-    #[ORM\Column(name: "quantite", type: "decimal", precision: 10, scale: 2, nullable: true)]
+    #[ORM\Column(name: "quantite", type: "decimal", precision: 10, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(value: 0, message: "La quantité doit être supérieure à zéro.")]
     private ?string $quantite;
 
-    #[ORM\Column(name: "unite", type: "string", length: 50, nullable: true)]
+
+    #[ORM\Column(name: "unite", type: "string", length: 50)]
+    #[Assert\NotNull(message: "L'unité ne peut pas être vide.")]
     private ?string $unite;
+
 
     #[ORM\Column(name: "dateAjout", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $dateajout;
@@ -41,15 +51,24 @@ class Stock
     private ?string $etat;
 
     #[ORM\Column(name: "imageUrl", type: "string", length: 255, nullable: true)]
-    private ?string $imageurl;
+    #[Assert\Url(message: "Veuillez fournir une URL valide.")]
+    private ?string $imageUrl;
 
     #[ORM\Column(name: "idAppelOffre", type: "integer", nullable: true)]
     private ?int $idappeloffre;
 
     #[ORM\Column(name: "latitude", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[Assert\Regex(
+        pattern: "/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/",
+        message: "Veuillez fournir une latitude valide."
+    )]
     private ?float $latitude;
 
     #[ORM\Column(name: "longitude", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[Assert\Regex(
+        pattern: "/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/",
+        message: "Veuillez fournir une longitude valide."
+    )]
     private ?float $longitude;
 
     #[ORM\ManyToOne(targetEntity: "User")]
@@ -161,12 +180,12 @@ class Stock
 
     public function getImageurl(): ?string
     {
-        return $this->imageurl;
+        return $this->imageUrl;
     }
 
-    public function setImageurl(?string $imageurl): static
+    public function setImageurl(?string $imageUrl): static
     {
-        $this->imageurl = $imageurl;
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }

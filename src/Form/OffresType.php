@@ -19,8 +19,7 @@ class OffresType extends AbstractType
             ->add('etatpayment')
             ->add('datepayment')
             ->add('idappeloffre')
-            ->add('idsociete')
-        ;
+            ->add('idsociete');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

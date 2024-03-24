@@ -71,7 +71,7 @@ class OffresController extends AbstractController
     #[Route('/{idoffre}', name: 'app_offres_delete', methods: ['POST'])]
     public function delete(Request $request, Offres $offre, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$offre->getIdoffre(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $offre->getIdoffre(), $request->request->get('_token'))) {
             $entityManager->remove($offre);
             $entityManager->flush();
         }

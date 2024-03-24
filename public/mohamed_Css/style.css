@@ -1,0 +1,277 @@
+.search-box{
+    -fx-background-color:#FFFFFF;
+    -fx-background-radius: 100;
+}
+
+.transparent{
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.transparentbutton{
+    -fx-background-color: rgba(0,0,0,0);
+    -fx-border-radius: 50;
+}
+
+.search-button{
+    -fx-background-color: #828282;
+    -fx-background-radius: 30;
+}
+
+.right-bar{
+    -fx-background-image:url('../image/bacgound_left.jpg');
+    -fx-background-size: 100% 100%;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.chosen-fruit-card{
+    -fx-background-color: #F16C31;
+    -fx-background-radius: 30;
+}
+
+.comboBox{
+    -fx-background-color: rgba(255,255,255,0.3);
+    -fx-background-radius: 30;
+}
+
+.add-btn {
+    -fx-background-color: #FFFFFF; /* Couleur de fond */
+    -fx-background-radius: 30; /* Rayon du coin pour créer un cercle */
+    -fx-border-width: 0; /* Supprimer la bordure */
+    -fx-padding: 10px; /* Espacement intérieur pour le texte */
+    -fx-font-size: 16px; /* Taille de la police */
+    -fx-font-family: Cambria;
+    -fx-font-scale:Bold;
+    -fx-text-fill: #59B91D; /* Couleur du texte */
+    -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 2, 2); /* Ajouter une ombre */
+    -fx-cursor: hand; /* Changer le curseur en main au survol */
+    -fx-transition: all 0.3s; /* Transition douce pour les changements */
+}
+
+.add-btn:hover {
+    -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 4, 4); /* Effet d'ombre plus prononcé au survol */
+    -fx-translate-y: 4px; /* Décaler légèrement vers le bas pour l'effet 3D */
+}
+
+.free-delivery-card{
+    -fx-background-color: #59B91D;
+    -fx-background-radius: 30;
+}
+
+.shopping-online-card{
+    -fx-background-color: #BAEAC3;
+    -fx-background-radius: 30;
+}
+
+.fruit-item{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 30;
+}
+.delete-btn {
+    -fx-background-color: #FFFFFF; /* Couleur de fond */
+    -fx-background-radius: 30; /* Rayon du coin pour créer un cercle */
+    -fx-border-width: 0; /* Supprimer la bordure */
+    -fx-padding: 10px; /* Espacement intérieur pour le texte */
+    -fx-font-size: 16px; /* Taille de la police */
+    -fx-font-family: Cambria;
+    -fx-font-weight: bold; /* Poids de la police en gras */
+    -fx-text-fill: #FF0000; /* Couleur du texte en rouge */
+    -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 2, 2); /* Ajouter une ombre */
+    -fx-cursor: hand; /* Changer le curseur en main au survol */
+    -fx-transition: all 0.3s; /* Transition douce pour les changements */
+}
+
+.delete-btn:hover {
+    -fx-background-color: #FFCCCC; /* Changement de couleur de fond au survol */
+    -fx-text-fill: #FF3333; /* Changement de couleur du texte au survol en rouge plus foncé */
+}
+.update-btn {
+    -fx-background-color: #3498DB; /* Couleur de fond bleue */
+    -fx-background-radius: 30; /* Rayon du coin pour créer un cercle */
+    -fx-border-width: 0; /* Supprimer la bordure */
+    -fx-padding: 10px; /* Espacement intérieur pour le texte */
+    -fx-font-size: 16px; /* Taille de la police */
+    -fx-font-family: Cambria;
+    -fx-font-weight: bold; /* Poids de la police en gras */
+    -fx-text-fill: #FFFFFF; /* Couleur du texte en blanc */
+    -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 2, 2); /* Ajouter une ombre */
+    -fx-cursor: hand; /* Changer le curseur en main au survol */
+    -fx-transition: all 0.3s; /* Transition douce pour les changements */
+}
+
+.update-btn:hover {
+    -fx-background-color: #2980B9; /* Changement de couleur de fond au survol */
+}
+.add1-btn {
+    -fx-background-color: #59B91D; /* Couleur de fond verte */
+    -fx-background-radius: 30; /* Rayon du coin pour créer un cercle */
+    -fx-border-width: 0; /* Supprimer la bordure */
+    -fx-padding: 10px; /* Espacement intérieur pour le texte */
+    -fx-font-size: 16px; /* Taille de la police */
+    -fx-font-family: Cambria;
+    -fx-font-weight: bold; /* Poids de la police en gras */
+    -fx-text-fill: #FFFFFF; /* Couleur du texte en blanc */
+    -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 2, 2); /* Ajouter une ombre */
+    -fx-cursor: hand; /* Changer le curseur en main au survol */
+    -fx-transition: all 0.3s; /* Transition douce pour les changements */
+}
+
+.add1-btn:hover {
+    -fx-background-color: #4CAF50; /* Changement de couleur de fond au survol */
+}
+.delete2-btn {
+    -fx-background-color: #FF5733; /* Couleur de fond orange */
+    -fx-background-radius: 30; /* Rayon du coin pour créer un cercle */
+    -fx-border-width: 0; /* Supprimer la bordure */
+    -fx-padding: 10px; /* Espacement intérieur pour le texte */
+    -fx-font-size: 16px; /* Taille de la police */
+    -fx-font-family: Cambria;
+    -fx-font-weight: bold; /* Poids de la police en gras */
+    -fx-text-fill: #FFFFFF; /* Couleur du texte en blanc */
+    -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 2, 2); /* Ajouter une ombre */
+    -fx-cursor: hand; /* Changer le curseur en main au survol */
+    -fx-transition: all 0.3s; /* Transition douce pour les changements */
+}
+
+.delete2-btn:hover {
+    -fx-background-color: #FF8C66; /* Changement de couleur de fond au survol */
+}.fa {
+     -fx-font-size: 16px; /* Taille de la police */
+     -fx-font-family: Cambria;
+     -fx-font-weight: bold; /* Poids de la police en gras */
+     -fx-text-fill: #FFFFFF; /* Couleur du texte en blanc */
+     -fx-effect: dropshadow(gaussian, #AAAAAA, 10, 0, 2, 2); /* Ajouter une ombre */
+     -fx-cursor: hand; /* Changer le curseur en main au survol */
+     -fx-transition: all 0.3s; /* Transition douce pour les changements */
+ }
+
+/* Style spécifique pour Facebook */
+.fa-facebook {
+    -fx-background: #3B5998; /* Couleur d'arrière-plan */
+    -fx-shape: "M10,20 L30,20 L35,10 L40,10 L40,5 L35,5 L35,2 L30,2 L30,0 L25,0 L25,2 L20,2 L20,5 L15,5 L15,10 L20,10 L20,20 L10,20 Z"; /* Forme de l'icône Facebook */
+    -fx-content-display: top; /* Afficher le contenu (l'icône) au-dessus du texte */
+    -fx-padding: 10px; /* Ajouter un remplissage autour de l'icône */
+}
+
+/* Style spécifique pour Twitter */
+.fa-twitter {
+    -fx-background: #55ACEE; /* Couleur d'arrière-plan */
+    -fx-shape: "M50,8.854C48.875,9.51,47.688,10,46.438,10.26c1.875-1.125,3.313-2.938,3.988-5.125C49.563,4.688,48.313,5.063,47,5.25 c-1.875-2-4.875-2.188-7-1c-1.813,1.063-2.938,2.938-3,5C36.063,8.938,33.063,7,29.813,7c-1.188,0-2.375,0.25-3.5,0.688 C27.438,8.063,26.25,8,25,8c-2.75,0-5,2.25-5,5s2.25,5,5,5c-1.125,0.875-2.5,1.375-4,1.438C21.063,19.563,22.188,20,23.313,20 c-0.813,0.75-1.875,1.25-3,1.25c-0.75,0-1.438-0.188-2.063-0.563c0,0.063,0,0.125,0,0.188c0,3.25,2.313,5.938,5.375,6.5 c-0.563,0.188-1.188,0.25-1.813,0.25c-0.438,0-0.813,0-1.188-0.063c0.813,2.625,3.188,4.5,5.938,4.563 c-2.188,1.75-4.938,2.813-7.938,2.813c-0.5,0-1,0-1.5-0.063C12.313,28.75,16,30,20,30c24,0,37-20,37-37 c0-0.563,0-1.063-0.063-1.563C56.313,9.75,53.75,8.25,50,8.854z"; /* Forme de l'icône Twitter */
+    -fx-content-display: top; /* Afficher le contenu (l'icône) au-dessus du texte */
+    -fx-padding: 10px; /* Ajouter un remplissage autour de l'icône */
+}
+/* Dans votre fichier CSS */
+/* Style du bouton de partage Facebook */
+.fb-share-button {
+    -fx-background-color: #3b5998;
+    -fx-background-radius: 3px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 8px;
+}
+
+/* Style au survol du bouton de partage Facebook */
+.fb-share-button:hover {
+    -fx-background-color: #213a6f;
+}
+
+/* Style de l'icône SVG dans le bouton de partage Facebook */
+.fb-share-button .icon {
+    -fx-fill: white;
+}
+
+/* Style du texte dans le bouton de partage Facebook */
+.fb-share-button .text {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 0 3px;
+}
+.md-table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+
+.md-table tbody tr:hover, .md-table tbody tr:focus {
+    cursor:pointer;
+    background-color:rgba(63,81,181,0.2);
+}
+
+.md-table-header {
+    border-bottom: 1px solid rgb(230,230,230);
+    color: rgb(130,130,130);
+    text-align: left;
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 16px 16px 16px 0;
+}
+
+.md-table-header a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.md-table-content {
+    white-space: nowrap;
+    font-size: 0.8em;
+    padding: 16px 16px 16px 0;
+    height: 72px;
+}
+
+.md-table-td-more {
+    max-width:72px;
+    width:72px;
+    padding:16px;
+}
+
+.md-table-thumbs {
+    max-width: 104px;
+    width: 104px;
+    padding: 16px 32px;
+}
+
+.md-table-thumbs div {
+    overflow:hidden;
+    width: 40px;
+    height:40px;
+    border-radius:20px;
+    border: 1px solid rgba(0,0,0,0.2);
+    background-size:cover;
+    box-shadow: 0 8px 10px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 8px 10px rgba(0,0,0,.1);
+}
+
+.md-table-footer {
+    height:40px;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.md-table-count-info {
+    line-height:40px;
+    font-size:.75em;
+}
+
+.md-table-footer-item {
+    width: 40px;
+    height: 40px;
+    vertical-align:middle;
+}
+
+.md-table-active-page {
+    font-weight: 700;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.grey {
+    color: grey;
+}
+
+md-input-container.md-default-theme .md-input {
+    color: white;
+    border-color: white;
+    margin-top: 24px;
+}

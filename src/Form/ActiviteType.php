@@ -16,8 +16,7 @@ class ActiviteType extends AbstractType
             ->add('dateFin')
             ->add('itineraire')
             ->add('utilisateur')
-            ->add('stock')
-        ;
+            ->add('stock');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

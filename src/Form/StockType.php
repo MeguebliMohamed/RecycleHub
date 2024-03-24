@@ -20,12 +20,11 @@ class StockType extends AbstractType
             ->add('unite')
             ->add('dateajout')
             ->add('etat')
-            ->add('imageurl')
+            ->add('imageUrl')
             ->add('idappeloffre')
             ->add('latitude')
             ->add('longitude')
-            ->add('user')
-        ;
+         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
