@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Stock;
 use App\Form\AjouterStockType;
+use App\Form\StockType;
 use App\Repository\StockRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +54,7 @@ class StockController extends AbstractController
     #[Route('/{id}/edit', name: 'app_stock_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Stock $stock, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(AjouterStockType::class, $stock);
+        $form = $this->createForm(StockType::class, $stock);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

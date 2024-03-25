@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AppelsoffresRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: "appelsoffres")]
@@ -32,12 +33,12 @@ class Appelsoffres
     private float $prixfinal = 0;
 
     #[ORM\Column(name: "date_debut", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $dateDebut;
+    private ?DateTimeInterface $dateDebut;
 
     #[Assert\NotNull(message: "La date de fin ne peut pas être vide.")]
     #[Assert\GreaterThan(propertyPath: "date_debut", message: "La date de fin doit être postérieure à la date de début.")]
     #[ORM\Column(name: "date_fin", type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $dateFin;
+    private ?DateTimeInterface $dateFin;
 
     #[ORM\Column(name: "etat", type: "string", length: 20, nullable: false, options: ["default" => "En cours"])]
     private string $etat = 'En cours';
@@ -104,24 +105,24 @@ class Appelsoffres
         return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    public function getDateDebut(): ?DateTimeInterface
     {
         return $this->dateDebut;
     }
 
-    public function setDateDebut(?\DateTimeInterface $dateDebut): static
+    public function setDateDebut(?DateTimeInterface $dateDebut): static
     {
         $this->dateDebut = $dateDebut;
 
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFin(): ?DateTimeInterface
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): static
+    public function setDateFin(?DateTimeInterface $dateFin): static
     {
         $this->dateFin = $dateFin;
 

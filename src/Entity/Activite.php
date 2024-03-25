@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActiviteRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: "activite")]
@@ -15,13 +17,13 @@ class Activite
     private int $id;
 
     #[ORM\Column(name: "date_parcours", type: "datetime", nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private \DateTime $dateParcours;
+    private DateTime $dateParcours;
 
     #[ORM\Column(name: "date_fin", type: "datetime", nullable: true)]
     #[Assert\NotNull(message: "La date de fin ne peut pas être vide.")]
     #[Assert\GreaterThan(propertyPath: "dateDebut", message: "La date de fin doit être postérieure à la date de début.")]
     #[Assert\LessThanOrEqual(propertyPath: "dateDebut", value: "+72 hours", message: "La date de fin ne peut pas être plus de 72 heures après la date de début.")]
-    private ?\DateTimeInterface $dateFin;
+    private ?DateTimeInterface $dateFin;
 
     #[ORM\Column(name: "itineraire", type: "integer", nullable: true)]
     private ?int $itineraire;
@@ -44,24 +46,24 @@ class Activite
         return $this->id;
     }
 
-    public function getDateParcours(): ?\DateTimeInterface
+    public function getDateParcours(): ?DateTimeInterface
     {
         return $this->dateParcours;
     }
 
-    public function setDateParcours(\DateTimeInterface $dateParcours): static
+    public function setDateParcours(DateTimeInterface $dateParcours): static
     {
         $this->dateParcours = $dateParcours;
 
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFin(): ?DateTimeInterface
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): static
+    public function setDateFin(?DateTimeInterface $dateFin): static
     {
         $this->dateFin = $dateFin;
 

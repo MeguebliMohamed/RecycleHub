@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\StockRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -45,7 +46,7 @@ class Stock
 
 
     #[ORM\Column(name: "dateAjout", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $dateajout;
+    private ?DateTimeInterface $dateajout;
 
     #[ORM\Column(name: "etat", type: "string", length: 50, nullable: true)]
     private ?string $etat;
@@ -154,12 +155,12 @@ class Stock
         return $this;
     }
 
-    public function getDateajout(): ?\DateTimeInterface
+    public function getDateajout(): ?DateTimeInterface
     {
         return $this->dateajout;
     }
 
-    public function setDateajout(?\DateTimeInterface $dateajout): static
+    public function setDateajout(?DateTimeInterface $dateajout): static
     {
         $this->dateajout = $dateajout;
 

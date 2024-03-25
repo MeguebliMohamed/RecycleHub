@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OffresRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: "offres")]
@@ -23,7 +24,7 @@ class Offres
     private float $montant;
 
     #[ORM\Column(name: "dateSoumission", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $datesoumission;
+    private ?DateTimeInterface $datesoumission;
 
     #[ORM\Column(name: "description", type: "string", length: 255, nullable: true)]
     #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
@@ -40,7 +41,7 @@ class Offres
     private ?string $etatpayment;
 
     #[ORM\Column(name: "datePayment", type: "datetime", nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $datepayment;
+    private ?DateTimeInterface $datepayment;
 
     #[ORM\ManyToOne(targetEntity: "Appelsoffres")]
     #[ORM\JoinColumn(name: "idAppelOffre", referencedColumnName: "id")]
@@ -70,12 +71,12 @@ class Offres
         return $this;
     }
 
-    public function getDatesoumission(): ?\DateTimeInterface
+    public function getDatesoumission(): ?DateTimeInterface
     {
         return $this->datesoumission;
     }
 
-    public function setDatesoumission(?\DateTimeInterface $datesoumission): static
+    public function setDatesoumission(?DateTimeInterface $datesoumission): static
     {
         $this->datesoumission = $datesoumission;
 
@@ -118,12 +119,12 @@ class Offres
         return $this;
     }
 
-    public function getDatepayment(): ?\DateTimeInterface
+    public function getDatepayment(): ?DateTimeInterface
     {
         return $this->datepayment;
     }
 
-    public function setDatepayment(?\DateTimeInterface $datepayment): static
+    public function setDatepayment(?DateTimeInterface $datepayment): static
     {
         $this->datepayment = $datepayment;
 

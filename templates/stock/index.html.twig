@@ -1,13 +1,22 @@
 {% extends '/stock/StockFrontTemplate.html.twig' %}
 
-{% block title %}Stock index{% endblock %}
-
-{% block body %}
+{% block title %}Table de stocks{% endblock %}
+{% block css %}
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="{{ asset('mohamed_Css/table.css') }}">
+    <link rel="stylesheet" href="{{ asset('mohamed_Css/style.css') }}">
+{% endblock %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     <div class="page-container">
         <div class="table-title">
-            <h1>Stock index</h1>
+            <h1>Table de stocks</h1>
         </div>
     </div>
     <div class="page-container">
@@ -17,7 +26,7 @@
                 <th>Type</th>
                 <th>Nom</th>
                 <th>Description</th>
-                <th>Prixunit</th>
+                <th>Prix unit</th>
                 <th>Quantite</th>
                 <th>Actions</th>
             </tr>
@@ -39,10 +48,8 @@
                         <a href="{{ path('app_stock_show', {'id': stock.id}) }}" class="button-with-image" title="Info">
                             <img src="/mohamed_Css/img/information.png" style="width: 40px; height: 35px;">
                         </a>
-
-                        <a href="{{ path('app_stock_delete', {'id': stock.id}) }}" class="button-with-image" title="Delete"
-                           onclick="return confirm('Are you sure you want to delete this item?');">
-                            <img src="/mohamed_Css/img/bin.png" style="width: 40px; height: 35px;">
+                        <a href="#" onclick="confirmDeleting(event, '{{ path('app_stock_delete', {'id': stock.id}) }}', '{{ csrf_token('delete' ~ stock.id) }}')" class="button-with-image" title="Delete">
+                            <img src="/mohamed_Css/img/bin.png" style="width: 40px; height: 35px;" alt="Delete">
                         </a>
                     </td>
                 </tr>
@@ -54,6 +61,41 @@
             </tbody>
         </table>
     </div> {# Fin de la div .page-container #}
-        <a href="{{ path('app_stock_new') }}" class="create-new-link">Create new</a>
+    <br>
+
+    <div class="page-container">
+        <form action="{{ path('app_stock_new') }}" method="GET">
+            <button type="submit" class="btn btn-success btn-custom">Create new</button>
+        </form>
+    </div>
+
+    <style>
+        /* Custom CSS */
+        .btn-custom {
+            background-color: #c2fbd7;
+            border-radius: 100px;
+            box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+            color: green;
+            cursor: pointer;
+            display: inline-block;
+            font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+            padding: 7px 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 250ms;
+            border: 0;
+            font-size: 16px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+
+        .btn-custom:hover {
+            box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+            transform: scale(1.05) rotate(-1deg);
+        }
+    </style>
+
 
 {% endblock %}
