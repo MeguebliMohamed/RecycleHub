@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
 class StockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -58,7 +58,12 @@ class StockType extends AbstractType
                 'required' => true, // Optionnel : définir si le champ est obligatoire
                 // Autres options
             ])
-            ->add('imageurl')
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Télécharger une image', // Étiquette personnalisée
+                'allow_delete' => false, // Désactiver l'option de suppression
+                'download_uri' => false, // Désactiver l'option de téléchargement
+                'image_uri' => false, // Désactiver l'affichage de l'image
+            ])
             ->add('Update',SubmitType::class);
 
     }

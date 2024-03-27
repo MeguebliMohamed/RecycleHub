@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\mohamedController;
 
 use App\Repository\ActiviteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/home')]
-class HomeController extends AbstractController
+#[Route('/back')]
+class BackEndController extends AbstractController
 {
-    #[Route('/', name: 'home', methods: ['GET'])]
+    #[Route('/', name: 'back', methods: ['GET'])]
     public function index(ActiviteRepository $activiteRepository): Response
     {
-        return $this->render('FrontTemplate.html.twig');
+        return $this->render('BackEndTemplate.html.twig');
     }
 
 }

@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 function confirmDeleting(stockId, url, token) {
     Swal.fire({
         title: "Are you sure?",
@@ -24,7 +25,7 @@ function confirmDeleting(stockId, url, token) {
             // Ajouter le formulaire à la page et le soumettre
             document.body.appendChild(form);
             form.submit();
-            Swal.fire({
+            let fire = Swal.fire({
                 title: "Deleted!",
                 text: "Your file has been deleted.",
                 icon: "success"
@@ -33,13 +34,14 @@ function confirmDeleting(stockId, url, token) {
     });
 }
 
-    function showSuccessMessage() {
+function showSuccessMessage() {
     Swal.fire({
         title: "Good job!",
         text: "You clicked the button!",
         icon: "success"
     });
 }
+
 function showSuccessMessageEdit() {
     Swal.fire({
         position: "top-end",
@@ -49,4 +51,8 @@ function showSuccessMessageEdit() {
         timer: 1500
     });
 }
+
+
+
+
 

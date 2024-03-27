@@ -1,4 +1,4 @@
-{% extends './stock/StockFrontTemplate.html.twig' %}
+{% extends './FrontTemplate.html.twig' %}
 
 {% block title %}Modifier stocks{% endblock %}
 
@@ -46,9 +46,8 @@
                         {{ form_errors(form.unite) }}
                     </div>
                     <div class="col-md-6">
-                        {{ form_label(form.imageurl, 'URL de l\'image') }}
-                        {{ form_widget(form.imageurl, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.imageurl) }}
+                        {{ form_label(form.imageFile, 'Image') }}
+                        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control', 'style': 'max-width: 300px; max-height: 200px;'}}) }}
                     </div>
                 </div>
                 <div class="form-group row">

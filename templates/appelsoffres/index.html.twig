@@ -1,49 +1,139 @@
 {% extends './FrontTemplate.html.twig' %}
 
-{% block title %}Appelsoffres index{% endblock %}
-
-{% block body %}
-    <h1>Appelsoffres index</h1>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Titre</th>
-            <th>Description</th>
-            <th>Prixinitial</th>
-            <th>Prixfinal</th>
-            <th>DateDebut</th>
-            <th>DateFin</th>
-            <th>Etat</th>
-            <th>Etatpayment</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for appelsoffre in appelsoffres %}
-            <tr>
-                <td>{{ appelsoffre.id }}</td>
-                <td>{{ appelsoffre.titre }}</td>
-                <td>{{ appelsoffre.description }}</td>
-                <td>{{ appelsoffre.prixinitial }}</td>
-                <td>{{ appelsoffre.prixfinal }}</td>
-                <td>{{ appelsoffre.dateDebut ? appelsoffre.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ appelsoffre.dateFin ? appelsoffre.dateFin|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ appelsoffre.etat }}</td>
-                <td>{{ appelsoffre.etatpayment }}</td>
-                <td>
-                    <a href="{{ path('app_appelsoffres_show', {'id': appelsoffre.id}) }}">show</a>
-                    <a href="{{ path('app_appelsoffres_edit', {'id': appelsoffre.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_appelsoffres_new') }}">Create new</a>
+{% block title %}Liste d'Appels d'offres{% endblock %}
+{% block css %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
 {% endblock %}
+{% block body %}
+
+<br><br>
+
+<!DOCTYPE html>
+<html lang="fr">
+<div class="container2">
+    <div class="card">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div class="text-center">
+            <h1>Liste d'Appels d'offres</h1>
+        </div>
+        <div class="container3">
+            <div class="text-center">
+                <table class="table table-striped custom-table">{# Ajoutez la classe custom-table ici #}
+                    <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Prixinitial</th>
+                        <th>DateDebut</th>
+                        <th>DateFin</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for appelsoffre in appelsoffres %}
+                        <tr>
+                            <td>{{ appelsoffre.titre }}</td>
+                            <td>{{ appelsoffre.description }}</td>
+                            <td>{{ appelsoffre.prixinitial }}</td>
+                            <td>{{ appelsoffre.dateDebut ? appelsoffre.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ appelsoffre.dateFin ? appelsoffre.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <a href="{{ path('app_appelsoffres_show', {'id': appelsoffre.id}) }}">show</a>
+                                <a href="{{ path('app_appelsoffres_edit', {'id': appelsoffre.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="10">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('app_appelsoffres_new') }}">Create new</a>
+                <br><br>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .custom-table {
+        max-height: 200px; /* Définir une hauteur maximale pour la table */
+        width: 150%; /* Définir la largeur de la table à 100% */
+        border-collapse: collapse; /* Fusionner les bordures des cellules */
+        overflow-y: auto; /* Activer le défilement vertical si la table dépasse la hauteur maximale */
+    }
+
+    .custom-table col {
+        resize: horizontal; /* Autoriser le redimensionnement horizontal */
+        min-width: 50px; /* Largeur minimale pour chaque colonne */
+        max-width: 300px; /* Largeur maximale pour chaque colonne */
+    }
+
+    .custom-table th,
+    .custom-table td {
+        padding: 10px; /* Padding des cellules */
+        text-align: left; /* Alignement du texte à gauche */
+        border: 1px solid #ddd; /* Bordures des cellules */
+        white-space: nowrap; /* Empêcher le texte de se répartir sur plusieurs lignes */
+    }
+
+    .custom-table th {
+        background-color: #057077;
+        color: white;
+        text-align: center; /* Aligner le texte à gauche */
+    }
+
+
+    /* Custom CSS */
+    .btn-custom {
+        background-color: #c2fbd7;
+        border-radius: 100px;
+        box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset, rgba(44, 187, 99, .15) 0 1px 2px, rgba(44, 187, 99, .15) 0 2px 4px, rgba(44, 187, 99, .15) 0 4px 8px, rgba(44, 187, 99, .15) 0 8px 16px, rgba(44, 187, 99, .15) 0 16px 32px;
+        color: green;
+        cursor: pointer;
+        display: inline-block;
+        font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+        padding: 7px 20px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 250ms;
+        border: 0;
+        font-size: 16px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+
+    .btn-custom:hover {
+        box-shadow: rgba(44, 187, 99, .35) 0 -25px 18px -14px inset, rgba(44, 187, 99, .25) 0 1px 2px, rgba(44, 187, 99, .25) 0 2px 4px, rgba(44, 187, 99, .25) 0 4px 8px, rgba(44, 187, 99, .25) 0 8px 16px, rgba(44, 187, 99, .25) 0 16px 32px;
+        transform: scale(1.05) rotate(-1deg);
+    }
+
+    .container3 {
+        display: flex;
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        height: 50vh; /* Assurez-vous que le conteneur parent occupe toute la hauteur de la fenêtre */
+        width: 75%;
+    }
+
+    .container2 {
+        display: flex;
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        height: 100vh; /* Assurez-vous que le conteneur parent occupe toute la hauteur de la fenêtre */
+
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        height: 100vh; /* Assurez-vous que le conteneur parent occupe toute la hauteur de la fenêtre */
+
+    }
+</style>
+{% endblock %}
+

@@ -1,70 +1,87 @@
-{% extends './stock/StockFrontTemplate.html.twig' %}
+{% extends './FrontTemplate.html.twig' %}
 
 {% block title %}Stock{% endblock %}
 
 {% block body %}
-    <h1>Stock</h1>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ stock.id }}</td>
-        </tr>
-        <tr>
-            <th>Type</th>
-            <td>{{ stock.type }}</td>
-        </tr>
-        <tr>
-            <th>Nom</th>
-            <td>{{ stock.nom }}</td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ stock.description }}</td>
-        </tr>
-        <tr>
-            <th>Prixunit</th>
-            <td>{{ stock.prixunit }}</td>
-        </tr>
-        <tr>
-            <th>Quantite</th>
-            <td>{{ stock.quantite }}</td>
-        </tr>
-        <tr>
-            <th>Unite</th>
-            <td>{{ stock.unite }}</td>
-        </tr>
-        <tr>
-            <th>Dateajout</th>
-            <td>{{ stock.dateajout ? stock.dateajout|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>Etat</th>
-            <td>{{ stock.etat }}</td>
-        </tr>
-        <tr>
-            <th>Imageurl</th>
-            <td>{{ stock.imageurl }}</td>
-        </tr>
-        <tr>
-            <th>Idappeloffre</th>
-            <td>{{ stock.idappeloffre }}</td>
-        </tr>
-        <tr>
-            <th>Latitude</th>
-            <td>{{ stock.latitude }}</td>
-        </tr>
-        <tr>
-            <th>Longitude</th>
-            <td>{{ stock.longitude }}</td>
-        </tr>
-        </tbody>
-    </table>
+<html lang="fr">
+<br>
+<div class="container2">
+    <div class="card">
+        <br>
+        <h1>Details</h1>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ vich_uploader_asset(stock, 'imageFile') }}" width="300" height="350" alt="Image">
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ stock.type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ stock.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ stock.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prixunit</th>
+                        <td>{{ stock.prixunit }}</td>
+                    </tr>
+                    <tr>
+                        <th>Quantite</th>
+                        <td>{{ stock.quantite }}</td>
+                    </tr>
+                    <tr>
+                        <th>Unite</th>
+                        <td>{{ stock.unite }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dateajout</th>
+                        <td>{{ stock.dateajout ? stock.dateajout|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <a href="{{ path('app_stock_index') }}">back to list</a>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <a href="{{ path('app_stock_edit', {'id': stock.id}) }}" class="btn btn-warning mr-2">Modifier</a>
+                    <a href="#" onclick="confirmDeleting(event, '{{ path('app_stock_delete', {'id': stock.id}) }}', '{{ csrf_token('delete' ~ stock.id) }}')" class="btn btn-danger mr-2">Supprimer</a>
+                    <a href="{{ path('app_stock_index') }}" class="btn btn-primary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
 
-    <a href="{{ path('app_stock_edit', {'id': stock.id}) }}">edit</a>
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        margin: auto; /* pour centrer la carte horizontalement */
+    }
 
-    {{ include('stock/_delete_form.html.twig') }}
+    img {
+        display: block; /* pour empêcher l'image de s'étendre sur toute la largeur */
+        margin: auto; /* centrer l'image à l'intérieur de son conteneur */
+        margin-bottom: 20px; /* ajout de marge en bas de l'image */
+    }
+
+    .table {
+        margin-bottom: 20px; /* ajout de marge en bas du tableau */
+    }
+</style>
+
 {% endblock %}

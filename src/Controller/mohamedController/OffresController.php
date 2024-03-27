@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\mohamedController;
 
 use App\Entity\Offres;
 use App\Form\OffresType;

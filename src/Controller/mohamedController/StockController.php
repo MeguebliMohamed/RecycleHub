@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\mohamedController;
 
 use App\Entity\Stock;
 use App\Form\AjouterStockType;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 #[Route('/stock')]
 class StockController extends AbstractController
 {
@@ -34,7 +34,8 @@ class StockController extends AbstractController
             $entityManager->persist($stock);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_stock_index', [], Response::HTTP_SEE_OTHER);
+            // Retourne une réponse JSON indiquant le succès de l'opération
+            return new JsonResponse(['success' => true]);
         }
 
         return $this->renderForm('stock/new.html.twig', [
