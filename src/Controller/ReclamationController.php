@@ -21,24 +21,21 @@ class ReclamationController extends AbstractController
             'reclamations' => $reclamationRepository->findAll(),
         ]);
     }
-
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
-        $reclamation = new Reclamation();
-        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form = $this->createForm(ReclamationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($reclamation);
-            $entityManager->flush();
+            $this->reclamationService->createReclamation($form->getData());
+            $this->addFlash('success', 'Réclamation créée avec succès.');
 
-            return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reclamation_index');
         }
 
-        return $this->renderForm('reclamation/new.html.twig', [
-            'reclamation' => $reclamation,
-            'form' => $form,
+        return $this->render('reclamation/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
