@@ -7,15 +7,15 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>ReclaimType</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>SubmissionDate</th>
-                <th>UpdateDate</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>ReclaimType</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>SubmissionDate</th>
+            <th>UpdateDate</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for reclamation in reclamations %}
@@ -24,16 +24,16 @@
                 <td>{{ reclamation.reclaimType }}</td>
                 <td>{{ reclamation.description }}</td>
                 <td>{{ reclamation.status }}</td>
-                <td>{{ reclamation.submissionDate ? reclamation.submissionDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reclamation.updateDate ? reclamation.updateDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reclamation.submissionDate ?: 'N/A' }}</td>
+                <td>{{ reclamation.updateDate ?: 'N/A' }}</td>
                 <td>
-                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">show</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
+                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">Show</a>
+                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">No records found</td>
             </tr>
         {% endfor %}
         </tbody>

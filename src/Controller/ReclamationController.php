@@ -33,7 +33,7 @@ class ReclamationController extends AbstractController
             $entityManager->persist($reclamation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reclamation_index');
+            return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reclamation/new.html.twig', [
@@ -59,7 +59,7 @@ class ReclamationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reclamation_index');
+            return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reclamation/edit.html.twig', [
@@ -76,6 +76,6 @@ class ReclamationController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_reclamation_index');
+        return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
 }
