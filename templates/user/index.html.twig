@@ -5,20 +5,16 @@
 {% block body %}
     <h1>User index</h1>
 
-    <table class="table">
+    <table class="table"  size="5" width="20" >
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Adresse</th>
                 <th>Telephone</th>
                 <th>Status</th>
                 <th>Role</th>
-                <th>Password</th>
-                <th>Verifcode</th>
                 <th>Cin</th>
-                <th>MatFiscal</th>
                 <th>Rib</th>
                 <th>NbrePoint</th>
                 <th>Email</th>
@@ -30,22 +26,18 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
                 <td>{{ user.adresse }}</td>
                 <td>{{ user.telephone }}</td>
                 <td>{{ user.status }}</td>
                 <td>{{ user.role }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.verifcode }}</td>
                 <td>{{ user.cin }}</td>
-                <td>{{ user.matFiscal }}</td>
                 <td>{{ user.rib }}</td>
                 <td>{{ user.nbrePoint }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.userName }}</td>
-                <td>{{ user.image }}</td>
+                <td>{{ user.imageName }}</td>
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
