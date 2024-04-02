@@ -2,7 +2,7 @@
 
 {% block title %}Avis{% endblock %}
 
-{% block body %}
+{% block contenu %}
     <h1>Avis</h1>
 
     <table class="table">
@@ -22,9 +22,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_avis_index') }}">back to list</a>
+    <a  class="btn btn-success" href="{{ path('app_avis_indexFront') }}">back to list</a>
 
-    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
+    <a class="btn btn-info" href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
 
     {{ include('avis/_delete_form.html.twig') }}
 {% endblock %}

@@ -45,4 +45,13 @@ class AvisRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByUserId($userId)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.iduser = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -79,20 +79,9 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
-                        <a class="nav-item nav-link active">Home</a>
-                        <a class="nav-item nav-link">About</a>
-                        <a class="nav-item nav-link">Services</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu border-0 rounded-0 m-0">
-                                <a class="dropdown-item">Parcs</a>
-                                <a class="dropdown-item">Materiels</a>
-                                <a class="dropdown-item">Statistiques</a>
+                        <a class="nav-item nav-link active" href={{ path('app_reclamation_indexFront')}}>Mes Reclamations</a>
+                        <a class="nav-item nav-link" href={{ path('app_avis_indexFront')}}>Mes Avis</a>
 
-
-                            </div>
-                        </div>
-                        <a class="nav-item nav-link">Contact</a>
                     </div>
                 </div>
             </nav>

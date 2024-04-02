@@ -1,29 +1,28 @@
-{% extends './FrontTemplate.html.twig' %}
+{% extends './BackEndTemplate.html.twig' %}
 
 {% block title %}Avis index{% endblock %}
 
-{% block body %}
-    <h1>Avis index</h1>
+{% block content %}
 
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Avis /</span> Display</h4>
+<div class="card">
+    <div class="table-responsive text-nowrap">
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Note</th>
                 <th>Avi</th>
-                <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-border-bottom-0" >
         {% for avi in avis %}
             <tr>
-                <td>{{ avi.id }}</td>
                 <td>{{ avi.note }}</td>
                 <td>{{ avi.avi }}</td>
-                <td>
-                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}">show</a>
-                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -32,6 +31,9 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
+</div>
+    </div>
+</div>
 
-    <a href="{{ path('app_avis_new') }}">Create new</a>
 {% endblock %}

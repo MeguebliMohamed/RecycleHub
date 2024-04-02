@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AvisRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: "avis")]
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
@@ -15,9 +16,11 @@ class Avis
     private int $id;
 
     #[ORM\Column(name: "note", type: "integer", nullable: false)]
+    #[Assert\NotBlank(message: 'Note cannot be blank')]
     private int $note;
 
     #[ORM\Column(name: "avi", type: "string", length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'avi cannot be blank')]
     private string $avi;
 
     #[ORM\ManyToOne(targetEntity: "User")]

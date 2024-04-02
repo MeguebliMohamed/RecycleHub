@@ -1,43 +1,172 @@
-{% extends './FrontTemplate.html.twig' %}
+{% extends './BackEndTemplate.html.twig' %}
 
 {% block title %}Reclamation index{% endblock %}
 
-{% block body %}
-    <h1>Reclamation index</h1>
 
+
+{% block content %}
+    <style>
+        .filter-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 10px; /* Adds space between the buttons and select field */
+            margin-bottom: 20px; /* Adds some space below the filter area */
+        }
+
+        .filter-buttons .btn {
+            padding: 0.375rem 0.75rem; /* Bootstrap's default padding for buttons */
+            /* Add any specific styles you want for your buttons here */
+        }
+
+        .filter-buttons .form-select {
+            padding: 0.375rem 1.75rem 0.375rem 0.75rem; /* Bootstrap's default padding for select */
+            /* Add any specific styles you want for your select field here */
+        }
+
+        /* This can be adjusted according to your design requirements */
+        .table thead th {
+            background-color: #f8f9fa; /* A light grey background for the table header */
+            border-bottom: 2px solid #dee2e6; /* A solid line to distinguish headers */
+        }
+
+        .table tbody tr td {
+            vertical-align: middle; /* Align the text vertically in the middle of the cell */
+        }
+    </style>
+    <div class="modal fade" id="traiterModal" tabindex="-1" aria-labelledby="traiterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="traiterModalLabel">Traiter Reclamation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="traiterForm" method="post" action="{{ path('traiter_reclamation') }}">
+                        <div class="mb-3">
+                            <label for="traitementDescription" class="form-label">Description du traitement</label>
+                            <textarea class="form-control" id="traitementDescription" name="traitementDescription" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" id="reclamationId" name="reclamationId" value="">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="traiterForm" class="btn btn-primary">Traiter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="content-wrapper">
+    <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Reclamations /</span> Display</h4>
+
+<div class="card">
+    <div class="table-responsive text-nowrap">
+        <div class="filter-buttons mb-3">
+            <button id="btnTraiter" class="btn btn-success me-2">Traiter</button>
+            <button id="btnNonTraiter" class="btn btn-warning me-2">Non Traiter</button>
+
+            <select id="reclaimTypeFilter" class="form-select w-auto">
+                <option value="">All Types</option>
+                <option value="Problèmes techniques">Problèmes techniques</option>
+                <option value="Problèmes de collecte">Problèmes de collecte</option>
+                <option value="Problèmes service client">Problèmes service client</option>
+                <option value="Suggestion d'amélioration">Suggestion d'amélioration</option>
+            </select>
+        </div>
     <table class="table">
         <thead>
-        <tr>
-            <th>Id</th>
-            <th>ReclaimType</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>SubmissionDate</th>
-            <th>UpdateDate</th>
-            <th>Actions</th>
-        </tr>
+            <tr>
+                <th>ReclaimType</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>SubmissionDate</th>
+                <th>UpdateDate</th>
+                <th>actions</th>
+            </tr>
         </thead>
-        <tbody>
+        <tbody class="table-border-bottom-0" >
         {% for reclamation in reclamations %}
             <tr>
-                <td>{{ reclamation.id }}</td>
                 <td>{{ reclamation.reclaimType }}</td>
                 <td>{{ reclamation.description }}</td>
-                <td>{{ reclamation.status }}</td>
-                <td>{{ reclamation.submissionDate ?: 'N/A' }}</td>
-                <td>{{ reclamation.updateDate ?: 'N/A' }}</td>
                 <td>
-                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">Show</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">Edit</a>
+    <span class="badge {{ reclamation.status == 'Traiter' ? 'bg-label-success' : 'bg-label-warning' }} me-1">
+        {{ reclamation.status }}
+    </span>
+                </td>
+
+                <td>{{ reclamation.submissionDate ? reclamation.submissionDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reclamation.updateDate ? reclamation.updateDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+
+
+                <td>
+                    {% if reclamation.status != 'Traiter' %}
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#traiterModal" onclick="setReclamationId({{ reclamation.id }})">
+                            <i class="bx bx-pencil me-1"></i> Traiter
+                        </a>
+                    {% else %}
+                        {{ include('reclamation/_delete_form.html.twig') }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">No records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+    </div>
+
+</div>
+    </div>
+</div>
+    <script>
+        function setReclamationId(id) {
+            document.getElementById('reclamationId').value = id;
+        }
+    </script>
+    <script>
+        document.getElementById('btnTraiter').addEventListener('click', function() {
+            filterReclamations('Traiter');
+        });
+
+        document.getElementById('btnNonTraiter').addEventListener('click', function() {
+            filterReclamations('en cours de traitement');
+        });
+
+        document.getElementById('reclaimTypeFilter').addEventListener('change', function() {
+            filterReclamationsByType(this.value);
+        });
+
+        function filterReclamations(status) {
+            const rows = document.querySelectorAll('table tbody tr');
+            rows.forEach(row => {
+                const statusCell = row.querySelector('td:nth-child(3) span').textContent.trim();
+                if (status === 'All' || statusCell === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterReclamationsByType(reclaimType) {
+            const rows = document.querySelectorAll('table tbody tr');
+            rows.forEach(row => {
+                const typeCell = row.querySelector('td:first-child').textContent.trim();
+                if (reclaimType === '' || typeCell === reclaimType) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
 {% endblock %}

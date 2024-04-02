@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Table(name: "reclamation")]
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
@@ -16,13 +18,15 @@ class Reclamation
     private int $id;
 
     #[ORM\Column(name: "reclaimType", type: "string", length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'ReclaimTpe date cannot be blank')]
     private ?string $reclaimType;
 
     #[ORM\Column(name: "description", type: "text", length: 65535, nullable: true)]
+    #[Assert\NotBlank(message: 'Description date cannot be blank')]
     private ?string $description;
 
     #[ORM\Column(name: "status", type: "string", length: 50, nullable: true, options: ["default" => "en coure de traitement"])]
-    private ?string $status;
+    private ?string $status = "en cours de traitement";
 
     #[ORM\Column(name: "submissionDate", type: "datetime", nullable: true)]
     private ?\DateTimeInterface $submissionDate;
@@ -46,7 +50,7 @@ class Reclamation
         return $this->reclaimType;
     }
 
-    public function setReclaimType(?string $reclaimType): static
+    public function setReclaimType(?string $reclaimType): self
     {
         $this->reclaimType = $reclaimType;
 
@@ -58,7 +62,7 @@ class Reclamation
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
