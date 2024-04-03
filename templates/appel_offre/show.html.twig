@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<title>AppelOffre</title>
+
+{% block body %}
+    <h1>AppelOffre</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ appeloffre.id }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ appeloffre.titre }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ appeloffre.description }}</td>
+        </tr>
+        <tr>
+            <th>PrixInitial</th>
+            <td>{{ appeloffre.prixInitial }}</td>
+        </tr>
+        <tr>
+            <th>PrixFinal</th>
+            <td>{{ appeloffre.prixFinal }}</td>
+        </tr>
+        <tr>
+            <th>DateDebut</th>
+            <td>{{ appeloffre.dateDebut ? appeloffre.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>DateFin</th>
+            <td>{{ appeloffre.dateFin ? appeloffre.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Etat</th>
+            <td>{{ appeloffre.etat }}</td>
+        </tr>
+        <tr>
+            <th>EtatPayment</th>
+            <td>{{ appeloffre.etatPayment }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_appeloffre_index') }}">back to list</a>
+
+    <a href="{{ path('app_appeloffre_edit', {'id': appeloffre.id}) }}">edit</a>
+
+    {{ include('appel_offre/_delete_form.html.twig') }}
+{% endblock %}

@@ -3,63 +3,79 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: "user")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: "nom", type: "string", length: 255, nullable: true)]
-    private ?string $nom;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nom = null;
 
-    #[ORM\Column(name: "prenom", type: "string", length: 255, nullable: true)]
-    private ?string $prenom;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $prenom = null;
 
-    #[ORM\Column(name: "adresse", type: "string", length: 255, nullable: true)]
-    private ?string $adresse;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresse = null;
 
-    #[ORM\Column(name: "telephone", type: "string", length: 20, nullable: true)]
-    private ?string $telephone;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telephone = null;
 
-    #[ORM\Column(name: "status", type: "string", length: 20, nullable: true)]
-    private ?string $status;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
 
-    #[ORM\Column(name: "role", type: "string", length: 20, nullable: true)]
-    private ?string $role;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $role = null;
 
-    #[ORM\Column(name: "password", type: "string", length: 255, nullable: true)]
-    private ?string $password;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $password = null;
 
-    #[ORM\Column(name: "verifcode", type: "string", length: 10, nullable: true)]
-    private ?string $verifcode;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $verifcode = null;
 
-    #[ORM\Column(name: "cin", type: "string", length: 20, nullable: true)]
-    private ?string $cin;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cin = null;
 
-    #[ORM\Column(name: "mat_fiscal", type: "string", length: 20, nullable: true)]
-    private ?string $matFiscal;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $matFiscal = null;
 
-    #[ORM\Column(name: "rib", type: "string", length: 20, nullable: true)]
-    private ?string $rib;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $rib = null;
 
-    #[ORM\Column(name: "nbre_point", type: "integer", nullable: true)]
-    private ?int $nbrePoint;
+    #[ORM\Column(nullable: true)]
+    private ?int $nbrePoint = null;
 
-    #[ORM\Column(name: "Email", type: "string", length: 255, nullable: true)]
-    private ?string $email;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $email = null;
 
-    #[ORM\Column(name: "user_name", type: "string", length: 50, nullable: true)]
-    private ?string $userName;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $userName = null;
 
-    #[ORM\Column(name: "image", type: "string", length: 60, nullable: true)]
-    private ?string $image;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
-    // Getters and setters
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AppelOffre::class)]
+    private Collection $appelOffres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
+    private Collection $offres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Stocks::class)]
+    private Collection $stocks;
+
+    public function __construct()
+    {
+        $this->appelOffres = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -244,5 +260,101 @@ class User
         $this->image = $image;
 
         return $this;
+    }
+
+
+
+    /**
+     * @return Collection<int, AppelOffre>
+     */
+    public function getAppelOffres(): Collection
+    {
+        return $this->appelOffres;
+    }
+
+    public function addAppelOffre(AppelOffre $appelOffre): static
+    {
+        if (!$this->appelOffres->contains($appelOffre)) {
+            $this->appelOffres->add($appelOffre);
+            $appelOffre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppelOffre(AppelOffre $appelOffre): static
+    {
+        if ($this->appelOffres->removeElement($appelOffre)) {
+            // set the owning side to null (unless already changed)
+            if ($appelOffre->getUser() === $this) {
+                $appelOffre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offre>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offre $offre): static
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): static
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getUser() === $this) {
+                $offre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stocks>
+     */
+    public function getStocks(): Collection
+    {
+        return $this->stocks;
+    }
+
+    public function addStock(Stocks $stock): static
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks->add($stock);
+            $stock->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(Stocks $stock): static
+    {
+        if ($this->stocks->removeElement($stock)) {
+            // set the owning side to null (unless already changed)
+            if ($stock->getUser() === $this) {
+                $stock->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
     }
 }

@@ -15,6 +15,7 @@ class AjouterStockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('user')
             ->add('type', ChoiceType::class, [
                 'label' => 'Type',
                 'choices' => [
@@ -45,7 +46,7 @@ class AjouterStockType extends AbstractType
             ])
             ->add('nom')
             ->add('description')
-            ->add('prixunit')
+            ->add('prixUnit')
             ->add('quantite')
             ->add('unite', ChoiceType::class, [
                 'label' => 'Unité',
@@ -64,15 +65,12 @@ class AjouterStockType extends AbstractType
                 'allow_delete' => false, // Désactiver l'option de suppression
                 'download_uri' => false, // Désactiver l'option de téléchargement
             ])
-            ->add('save',SubmitType::class);
+            ->add('save', SubmitType::class);
 
 
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-
-        ]);
     }
 }
