@@ -89,6 +89,9 @@ class ReclamationController extends AbstractController
             throw $this->createNotFoundException('No reclamation found for id ' . $reclamationId);
         }
 
+
+
+        //update entity
         // Update the Reclamation entity
         $reclamation->setStatus('Traiter');
         $reclamation->setUpdateDate(new \DateTime());
