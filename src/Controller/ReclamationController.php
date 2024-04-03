@@ -36,6 +36,7 @@ class ReclamationController extends AbstractController
             'reclamations' => $reclamations,
         ]);
     }
+    //preparation statics
     #[Route('/statistiques', name: 'app_statistiques')]
     public function statistiques(ReclamationRepository $reclamationRepository): Response
     {
