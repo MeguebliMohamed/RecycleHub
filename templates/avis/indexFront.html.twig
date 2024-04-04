@@ -1,0 +1,33 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}Avis index{% endblock %}
+
+{% block contenu %}
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Avis /</span> Display</h4>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- Adjust the number of columns as needed -->
+                {% for avi in avis %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Avis #{{ avi.id }}</h5>
+                                <p class="card-text"><strong>Note:</strong> {{ avi.note }}</p>
+                                <p class="card-text">{{ avi.avi }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="btn btn-primary">Show</a>
+                                <a href="{{ path('app_avis_edit', {'id': avi.id}) }}" class="btn btn-secondary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col">No avis records found.</div>
+                {% endfor %}
+            </div>
+
+            <a class="btn btn-outline-primary" href="{{ path('app_avis_new') }}">Create new</a>
+        </div>
+    </div>
+{% endblock %}
