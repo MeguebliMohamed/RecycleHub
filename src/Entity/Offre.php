@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\OffreRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 class Offre
 {
@@ -15,12 +15,15 @@ class Offre
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotNull(message: 'Le prix doit être supérieur à zéro.')]
+    #[Assert\GreaterThan(value: 0, message: 'Le prix doit être supérieur à zéro.')]
     private ?float $montant = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateSoumission = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotNull(message: "La description ne peut pas être vide.")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -33,6 +36,7 @@ class Offre
     private ?\DateTimeInterface $datePayment = null;
 
     #[ORM\ManyToOne(inversedBy: 'offre')]
+    #[Assert\NotNull(message: "Tu dois choisir un appel d'offre")]
     private ?AppelOffre $appelOffre = null;
 
     #[ORM\ManyToOne(inversedBy: 'offres')]

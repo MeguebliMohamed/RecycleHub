@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Offre;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,7 +16,8 @@ class AjouterOffreType extends AbstractType
             ->add('montant')
             ->add('description')
             ->add('appelOffre')
-            ->add('user');
+            ->add('user')
+            ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

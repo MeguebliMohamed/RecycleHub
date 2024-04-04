@@ -1,13 +1,41 @@
-<!DOCTYPE html>
 
-<title>Edit AppelOffre</title>
+{% extends './FrontTemplate.html.twig' %}
 
 {% block body %}
-    <h1>Edit AppelOffre</h1>
-
-    {{ include('appel_offre/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_appeloffre_index') }}">back to list</a>
-
-    {{ include('appel_offre/_delete_form.html.twig') }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="container">
+        <h1 class="my-4 text-center">Editer Offre</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h3>lancer par   : {{ appeloffre.user }}</h3>
+                </div>
+                <div class="form-group">
+                    <h3>Appel Offre N: {{ appeloffre.titre }}</h3>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.dateFin, 'Date final') }}
+                    {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.dateFin) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.description, 'Description') }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.prixInitial, 'Prix initial') }}
+                    {{ form_widget(form.prixInitial, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prixInitial) }}
+                </div>
+                <div class="form-group text-center">
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        {{ form_row(form.update, {'attr': {'class': 'btn btn-primary'}}) }}
+                        <a href="{{ path('app_appeloffre_index') }}" class="btn btn-warning ml-2">Retour à la liste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}
