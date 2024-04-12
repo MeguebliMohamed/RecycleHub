@@ -78,11 +78,13 @@ class ReclamationController extends AbstractController
      * @throws TransportExceptionInterface
      */
     #[Route('/traiter', name: 'traiter_reclamation', methods: ['POST'])]
-    public function traiter(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, Environment $twig): Response
+    public function traiter(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, LoggerInterface $logger): Response
     {
-        global $logger;
         $reclamationId = $request->request->get('reclamationId');
         $descriptionDuTraitement = $request->request->get('traitementDescription');
+
+        $reclamation = $entityManager->getRepository(Reclamation::class)->find($reclamationId);
+
 
         $reclamation = $entityManager->getRepository(Reclamation::class)->find($reclamationId);
 
