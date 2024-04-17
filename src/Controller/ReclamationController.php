@@ -46,6 +46,8 @@ class ReclamationController extends AbstractController
             'statistiques' => $statistiques,
         ]);
     }
+
+
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
