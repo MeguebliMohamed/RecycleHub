@@ -26,14 +26,11 @@
                     <div class="card card1">
                         <!--suppress ALL -->
                         <br>
-                        <div class="row">
-
+                        <div class="row justify-content-center">
                             <div class="col-md-6 mx-auto">
                                 <div class="row">
                                     <div class="col-md-6">
-
                                         <div class="form-group">
-
                                             {{ form_label(form.titre, 'Titre') }}
                                         </div>
                                         <br>
@@ -48,6 +45,10 @@
                                         <br>
                                         <div class="form-group">
                                             {{ form_label(form.dateFin, 'Date final') }}
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div> {{ form_label(form.stocks, 'Stocks', {'label_attr': {'class': 'control-label'}}) }}
                                         </div>
                                     </div>
                                     <br>
@@ -71,6 +72,11 @@
                                             {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
                                             {{ form_errors(form.dateFin) }}
                                         </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            {{ form_widget(form.stocks, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
                                     </div>
                                 </div>
                                 <br>
@@ -86,6 +92,7 @@
                                         <br>
                                     </div>
                                 </div>
+
                                 {{ form_end(form) }}
                             </div>
                         </div>
@@ -134,10 +141,9 @@
                                         <tr>
                                             <td>
                                                 <label>
-                                                    <input type="checkbox" class="stock-checkbox"
-                                                           data-prix="{{ stock.prixunit }}"
+                                                    <input type="checkbox" class="stock-checkbox" data-prix="{{ stock.prixunit }}"
                                                            data-quantite="{{ stock.quantite }}"
-                                                           data-stock="{{ stock }}">
+                                                           data-stock-id="{{ stock.id }}">
                                                 </label>
                                             </td>
                                             <td>{{ stock.type }}</td>
@@ -162,7 +168,10 @@
         </div>
     </div>
     <style>
-
+        .my-custom-class {
+            width: 300px; /* ou toute autre valeur de largeur que vous préférez */
+            /* Ajoutez d'autres styles personnalisés ici */
+        }
         /* Custom CSS */
         .btn-custom {
             background-color: #c2fbd7;
@@ -335,41 +344,26 @@
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll('.stock-checkbox');
             const prixInitialInput = document.getElementById('{{ form.prixInitial.vars.id }}');
-            const selectedStocks = []; // Correction : Initialisation du tableau
-
+            let selectedStocks = document.getElementById('{{ form.stocks.vars.id }}');
+            var selectedStockIds = [];
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', updateTotalAmount);
-                checkbox.addEventListener('change', updateSelectedStocks); // Ajout d'un écouteur pour mettre à jour les stocks sélectionnés
             });
 
             function updateTotalAmount() {
                 let totalAmount = 0;
-
+                selectedStocks =[];
                 checkboxes.forEach(checkbox => {
                     if (checkbox.checked) {
                         const prix = parseFloat(checkbox.getAttribute('data-prix'));
                         const quantite = parseFloat(checkbox.getAttribute('data-quantite'));
                         totalAmount += prix * quantite;
+                        selectedStocks.push(checkbox.getAttribute('data-stock-id'));
                     }
                 });
 
                 prixInitialInput.value = totalAmount.toFixed(2); // Mettez à jour le champ de montant initial
-            }
-
-            function updateSelectedStocks() {
-                selectedStocks.length = 0; // Efface le tableau des stocks sélectionnés
-
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        selectedStocks.push(checkbox.getAttribute('data-stock'));
-                    }
-                });
-
-                stocks.value = JSON.stringify(selectedStocks); // Met à jour la valeur de l'input stocks avec un JSON
-
-                // Ajouter des console.log pour vérifier les stocks sélectionnés
-                console.log('Stocks sélectionnés : ', selectedStocks);
-            }
+            };
         });
     </script>
 

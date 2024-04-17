@@ -56,7 +56,11 @@ class AppelOffre
         $this->offre = new ArrayCollection();
         $this->dateDebut = new \DateTimeImmutable(); // ou une autre valeur par défaut si nécessaire
     }
-
+public function setliststock(Collection $collection): static
+{
+    $this->stocks = $collection;
+    return $this;
+}
     public function getId(): ?int
     {
         return $this->id;
@@ -163,9 +167,7 @@ class AppelOffre
      */
     public function getStocks(): Collection
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('appel_offre_id', $this->id));
-        return $this->stocks->matching($criteria);
+        return $this->stocks;
     }
 
     public function addStock(Stocks $stock): static
@@ -207,9 +209,7 @@ class AppelOffre
      */
     public function getOffre(): Collection
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('appel_offre_id', $this->id));
-        return $this->offre->matching($criteria);
+        return $this->offre;
     }
 
     public function addOffre(Offre $offre): static
@@ -235,6 +235,6 @@ class AppelOffre
     }
     public function __toString()
     {
-        return $this->titre . ' ' . $this->dateFin->format('Y-m-d H:i:s') . ' ' . $this->description . ' ' . $this->prixInitial;
+        return $this->titre ;
     }
 }

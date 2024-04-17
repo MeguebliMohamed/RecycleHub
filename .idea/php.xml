@@ -153,6 +153,7 @@
       <path value="$PROJECT_DIR$/vendor/kriswallsmith/assetic" />
       <path value="$PROJECT_DIR$/vendor/oomphinc/composer-installers-extender" />
       <path value="$PROJECT_DIR$/vendor/eonasdan/bootstrap-datetimepicker" />
+      <path value="$PROJECT_DIR$/vendor/facebook/graph-sdk" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

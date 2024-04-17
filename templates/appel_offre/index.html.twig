@@ -1,9 +1,7 @@
 {% extends './FrontTemplate.html.twig' %}
 
 {% block title %}Liste d'Appels d'offres{% endblock %}
-{% block css %}
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-{% endblock %}
+
 {% block body %}
 
     <br>
@@ -12,6 +10,34 @@
             <div class="form-group text-center">
                 <h1>Table d'Appels d'Offre</h1>
             </div>
+            <div class="container2">
+                <div class="text-center">
+                    {{ form_start(recherche, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(recherche.titre, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(recherche.description, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(recherche.prixInitial, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="btn-group" role="group">
+                                {{ form_row(recherche.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                                <div class="ml-2">{{ form_widget(recherche.reset, {'attr': {'class': 'btn btn-danger'}}) }}</div> {# Ajout de l'espacement avec la classe "ml-2" #}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(recherche) }}
+                </div>
+            </div>
+
             <div class="text-center">
                 <div class="container2">
                     <div class="tbl-header">
@@ -239,6 +265,14 @@
             }
         });
     </script>
-
+    <script>
+        // Activer Tempus Dominus sur le champ de date
+        $(function () {
+            $('#your_datepicker_id').datetimepicker({
+                format: 'YYYY-MM-DD', // Format de date uniquement
+                // Autres options de configuration si nécessaire
+            });
+        });
+    </script>
 {% endblock %}
 

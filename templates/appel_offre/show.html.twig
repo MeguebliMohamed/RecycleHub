@@ -4,9 +4,11 @@
 {% block body %}
     <div class="container2">
         <div class="card">
+            <div class="text-center">
             <br>
             <h1>Details Appel Offre</h1>
             <br>
+            </div>
             <div class="row text-center">
                 <table class="table">
                     <tbody>
@@ -56,6 +58,7 @@
                            '{{ csrf_token('delete' ~ appeloffre.id) }}')"
                    class="btn btn-danger mr-2">Supprimer</a>
                 <a href="{{ path('app_appeloffre_index') }}" class="btn btn-primary">Retour à la liste</a>
+                <a href="{{ path('publish_on_facebook', {'id': appeloffre.id}) }}" class="btn btn-info"><i class="fab fa-facebook-square"></i> Partager sur Facebook</a>
             </div>
         </div>
     </div>

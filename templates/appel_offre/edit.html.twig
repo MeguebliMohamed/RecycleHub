@@ -28,6 +28,11 @@
                     {{ form_widget(form.prixInitial, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.prixInitial) }}
                 </div>
+                <div class="form-group">
+                    {{ form_label(form.stocks, 'article choisi') }}
+                    {{ form_widget(form.stocks, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.stocks) }}
+                </div>
                 <div class="form-group text-center">
                     <div class="btn-group" role="group" aria-label="Actions">
                         {{ form_row(form.update, {'attr': {'class': 'btn btn-primary'}}) }}
