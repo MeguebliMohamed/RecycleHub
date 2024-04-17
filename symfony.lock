@@ -1,4 +1,7 @@
 {
+    "captcha-com/symfony-captcha-bundle": {
+        "version": "4.2.12"
+    },
     "doctrine/annotations": {
         "version": "2.0",
         "recipe": {

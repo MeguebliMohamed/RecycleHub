@@ -3,3 +3,11 @@
 #    controller: App\Controller\DefaultController::index
 
 
+app_user_delete:
+  path: '/user/{id}/delete'
+  controller: 'App\Controller\UserController::delete'
+  methods: [POST, DELETE]
+
+
+captcha_routing:
+  resource: "@CaptchaBundle/Resources/config/routing.yml"
