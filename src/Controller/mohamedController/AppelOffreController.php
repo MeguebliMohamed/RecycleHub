@@ -89,6 +89,7 @@ class AppelOffreController extends AbstractController
          //   dump($request->request->all());
            // die(); // ou exit();
             // Enregistrez les données si nécessaire
+            $appelOffre->setEtat('En cours');
             $entityManager->persist($appelOffre);
             $entityManager->flush();
             return $this->redirectToRoute('app_appeloffre_index', [], Response::HTTP_SEE_OTHER);
@@ -169,8 +170,11 @@ class AppelOffreController extends AbstractController
         }
 
         // Générer le message à publier sur Facebook en fonction de l'appel d'offres
-        $message = "Nouvel appel d'offres publié : " . $appelOffre->getTitre() . " - " . $appelOffre->getDescription();
-
+        $userName = $appelOffre->getUser() ? $appelOffre->getUser()->getUsername() : "Utilisateur inconnu";
+        $message = "Nouvel appel d'offres publié par {$userName} : {$appelOffre->getTitre()} - {$appelOffre->getDescription()} - " .
+            "Date de début : {$appelOffre->getDateDebut()->format('d/m/Y H:i')} - " .
+            "Date de fin : {$appelOffre->getDateFin()->format('d/m/Y H:i')} - " .
+            "Prix initial : {$appelOffre->getPrixInitial()}";
         // Remplacez ces valeurs par les vôtres
         $pageId = '230735116796871';
         $accessToken = "EAAKQn0BZCZCqIBO20F7TS7gcjk41gZBF6eq1sEZAtzGBm2ZCpMpZBtC5l2pupMfnmIVl6WvzdpTkLjnvML3rUFLPeaBxnqim1nosgkEOvZBVrQZCZCrtDOb5DpJJb30VMMJnOvzKBz31TgLyQRWafIFiGd5ZCl0eHZBSSj7aiZAb5jNDavxo6tCLvCHg0KvsBmBE7dUZD";

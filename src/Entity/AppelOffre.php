@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: AppelOffreRepository::class)]
 class AppelOffre
 {
@@ -18,21 +18,26 @@ class AppelOffre
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "Le titre ne peut pas être vide.")]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotNull(message: "Le prix initial ne peut pas être vide.")]
+    #[Assert\Type(type: "float", message: "Le prix initial doit être un nombre décimal.")]
     private ?float $prixInitial = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $prixFinal = null;
+     private ?float $prixFinal = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\GreaterThanOrEqual(value: "now +24 hours", message: "La date de fin doit être au moins 24 heures après la date de début.")]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -42,6 +47,7 @@ class AppelOffre
     private ?string $etatPayment = null;
 
     #[ORM\OneToMany(mappedBy: 'appelOffre', targetEntity: Stocks::class)]
+    #[Assert\Count(min: 1, minMessage: "L'appel d'offres doit contenir au moins un article.")]
     private Collection $stocks;
 
     #[ORM\ManyToOne(inversedBy: 'appelOffres')]

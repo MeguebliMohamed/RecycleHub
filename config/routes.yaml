@@ -1,3 +1,10 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+generate_facture:
+  path: '/facture/generate'
+  controller: 'App\Controller\mohamedController\DevisController::generateFactureAction'
+
+generate_devis:
+  path: '/devis/generate'
+  controller: 'App\Controller\mohamedController\DevisController::generateDevisAction'

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\AppelOffre;
 use App\Entity\Offre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,4 +46,18 @@ class OffreRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    /**
+     * Retourne les offres associées à un appel d'offre spécifique.
+     *
+     * @param AppelOffre $appelOffre L'appel d'offre pour lequel récupérer les offres.
+     * @return Offre[] Un tableau d'offres associées à l'appel d'offre.
+     */
+    public function findByAppelOffre(AppelOffre $appelOffre): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.appelOffre = :appelOffre')
+            ->setParameter('appelOffre', $appelOffre)
+            ->getQuery()
+            ->getResult();
+    }
 }
