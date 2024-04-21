@@ -36,7 +36,6 @@ class ReclamationController extends AbstractController
             'reclamations' => $reclamations,
         ]);
     }
-    //preparation statics
     #[Route('/statistiques', name: 'app_statistiques')]
     public function statistiques(ReclamationRepository $reclamationRepository): Response
     {
@@ -46,8 +45,6 @@ class ReclamationController extends AbstractController
             'statistiques' => $statistiques,
         ]);
     }
-
-
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
@@ -92,16 +89,13 @@ class ReclamationController extends AbstractController
             throw $this->createNotFoundException('No reclamation found for id ' . $reclamationId);
         }
 
-
-
-        //update entity
         // Update the Reclamation entity
         $reclamation->setStatus('Traiter');
         $reclamation->setUpdateDate(new \DateTime());
         $entityManager->flush();
         try {
             $email = (new TemplatedEmail())
-                ->from('azizbenabeda123@gmail.com')
+                ->from('mouhamedaziz.benabda@esprit.tn')
                 ->to($reclamation->getUser()->getEmail())
                 ->subject('Votre Reclamation a été traitée')
                 ->htmlTemplate('emails/reclamation_traitement.html.twig')
