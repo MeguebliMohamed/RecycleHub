@@ -24,48 +24,54 @@ class AppelOffreController extends AbstractController
         $form = $this->createForm(rechAvanceAppelOffre::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->getClickedButton() && 'reset' === $form->getClickedButton()->getName()) {
-                // Réinitialisez les valeurs du formulaire
-                $form = $this->createForm(rechAvanceAppelOffre::class);
-            }
-            // Récupérer les données du formulaire
-            $data = $form->getData();
+        if ($form->isSubmitted()) {
+            // Réinitialiser le formulaire s'il s'agit d'une action de réinitialisation
 
-            // Construire la requête en fonction des critères de recherche
-            $queryBuilder = $appelOffreRepository->createQueryBuilder('e');
+            if ($form->isValid()) {
+                // Récupérer les données du formulaire
+                $data = $form->getData();
 
-            // Ajouter les conditions de recherche en fonction des champs du formulaire
-            if (!empty($data['titre'])) {
-                $queryBuilder
-                    ->andWhere('e.titre LIKE :titre')
-                    ->setParameter('titre', '%' . $data['titre'] . '%');
-            }
-            if (!empty($data['description'])) {
-                $queryBuilder
-                    ->andWhere('e.description LIKE :description')
-                    ->setParameter('description', '%' . $data['description'] . '%');
-            }
-            if (!empty($data['dateFin'])) {
-                $queryBuilder
-                    ->andWhere('e.dateFin <= :dateFin')
-                    ->setParameter('dateFin', $data['dateFin']);
-            }
-            if (!empty($data['prixInitial'])) {
-                $queryBuilder
-                    ->andWhere('e.prixInitial = :prixInitial')
-                    ->setParameter('prixInitial', $data['prixInitial']);
-            }
+                // Construire la requête en fonction des critères de recherche
+                $queryBuilder = $appelOffreRepository->createQueryBuilder('e');
 
-            // Exécuter la requête
-            $results = $queryBuilder->getQuery()->getResult();
+                // Ajouter les conditions de recherche en fonction des champs du formulaire
+                if (!empty($data['titre'])) {
+                    $queryBuilder
+                        ->andWhere('e.titre LIKE :titre')
+                        ->setParameter('titre', '%' . $data['titre'] . '%');
+                }
+                if (!empty($data['description'])) {
+                    $queryBuilder
+                        ->andWhere('e.description LIKE :description')
+                        ->setParameter('description', '%' . $data['description'] . '%');
+                }
+                if (!empty($data['dateFin'])) {
+                    $queryBuilder
+                        ->andWhere('e.dateFin <= :dateFin')
+                        ->setParameter('dateFin', $data['dateFin']);
+                }
+                if (!empty($data['prixInitial'])) {
+                    $queryBuilder
+                        ->andWhere('e.prixInitial = :prixInitial')
+                        ->setParameter('prixInitial', $data['prixInitial']);
+                }
 
-            // Afficher les résultats, les transmettre à un template, etc.
-            return $this->render('appel_offre/index.html.twig', [
-                'appelsoffres' => $results,
-                'recherche' => $form->createView(),
-            ]);
+                // Exécuter la requête
+                $results = $queryBuilder->getQuery()->getResult();
+
+                // Afficher les résultats, les transmettre à un template, etc.
+                return $this->render('appel_offre/index.html.twig', [
+                    'appelsoffres' => $results,
+                    'recherche' => $form->createView(),
+                ]);
+            }
         }
+
+// Si le formulaire n'est pas soumis ou n'est pas valide, afficher le formulaire vide
+        return $this->render('appel_offre/index.html.twig', [
+            'appelsoffres' => $apoffre,
+            'recherche' => $form->createView(),
+        ]);
 
         return $this->render('appel_offre/index.html.twig', [
             'appelsoffres' => $apoffre,

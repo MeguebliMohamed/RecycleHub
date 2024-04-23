@@ -26,10 +26,6 @@ class rechAvanceAppelOffre extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Recherche',
                 'attr' => ['class' => 'btn btn-primary'],
-            ])
-            ->add('reset', ResetType::class, [ // Ajout du bouton de réinitialisation
-                'label' => 'Réinitialiser',
-                'attr' => ['class' => 'btn btn-danger'], // Classes CSS pour styliser le bouton
             ]);
     }
 
