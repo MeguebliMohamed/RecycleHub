@@ -9,5 +9,33 @@ app_user_delete:
   methods: [POST, DELETE]
 
 
-captcha_routing:
-  resource: "@CaptchaBundle/Resources/config/routing.yml"
+
+user:
+  path: /user
+  controller: App\Controller\UserController::index
+
+
+
+
+edit:
+  path: /edit/{id}
+  controller: App\Controller\ProfileController::editUser
+
+
+
+
+home:
+  path: /
+  controller: App\Controller\HomeController::index
+
+#app_user_edit:
+ # path: '/user/edituser'
+  #controller: 'App\Controller\UserController::edituser'
+  #methods: [POST, EDIT]
+
+logout:
+  path: '/logout'
+
+forget:
+  path: /
+  controller: App\Controller\SecurityController::forgetPassword
