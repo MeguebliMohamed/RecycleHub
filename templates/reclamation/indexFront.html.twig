@@ -51,4 +51,23 @@
     </div>
 </div>
 
+
+    <script>
+        var botmanWidget = {
+            frameEndpoint: '{{ path("chat_frame") }}',
+            chatServer: '{{ path("chat_message") }}',
+            introMessage: 'Hello, I am a chatbot. Ask me anything. I reply with my AI brain. Vous pouvez aussi me parler en français.',
+            title: 'AI-chatbot',
+            mainColor: '#0089ec',
+            color: '#ffffff',
+            bubbleBackground: '#e39206',
+            aboutText: 'Powered by BotMan and OpenAI GPT-4-turbo model - Credits: Jessica Kuijer',
+            placeholderText: 'Ask me anything...',
+            aboutLink: 'https://jessicakuijer.com',
+            bubbleAvatarUrl: '{{ asset('images/discuter.jpg') }}',
+            displayMessageTime: true
+        };
+    </script>
+    <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+
 {% endblock %}
