@@ -1,3 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+PDF_reclamation:
+  path: /reclamation/pdf
+  controller: App\Controller\ReclamationController::generatePdf
+  methods: ['GET']

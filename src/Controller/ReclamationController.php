@@ -7,6 +7,7 @@ use App\Form\ReclamationType;
 use App\Repository\ReclamationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,37 @@ use Twig\Environment;
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
 {
+
+
+    #[Route('/generate-pdf', name: 'app_reclamation_generate_pdf', methods: ['GET'])]
+    public function generatePdf(ReclamationRepository $reclamationRepository): Response
+    {
+        // Récupérer les réclamations depuis le référentiel
+        $reclamations = $reclamationRepository->findAll();
+
+        // Créer le contenu HTML du tableau des réclamations
+        $html = $this->renderView('reclamation/pdf_reclamations.html.twig', [
+            'reclamations' => $reclamations,
+        ]);
+
+        // Créer un objet Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+
+        // Optionnel : définir la taille du papier et l'orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Rendre le PDF
+        $dompdf->render();
+
+        // Envoi du PDF en réponse
+        return new Response(
+            $dompdf->output(),
+            Response::HTTP_OK,
+            [
+                'Content-Type' => 'application/pdf',
+            ]
+        );}
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
     public function index(ReclamationRepository $reclamationRepository): Response
     {
@@ -95,7 +127,7 @@ class ReclamationController extends AbstractController
         $entityManager->flush();
         try {
             $email = (new TemplatedEmail())
-                ->from('mouhamedaziz.benabda@esprit.tn')
+                ->from('mohamedaziz.benabda@esprit.tn')
                 ->to($reclamation->getUser()->getEmail())
                 ->subject('Votre Reclamation a été traitée')
                 ->htmlTemplate('emails/reclamation_traitement.html.twig')

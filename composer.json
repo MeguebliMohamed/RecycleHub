@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
+        "dompdf/dompdf": "^2.0",
         "google/cloud-dialogflow": "^1.12",
         "nyholm/psr7": "*",
         "php-http/httplug": "*",
