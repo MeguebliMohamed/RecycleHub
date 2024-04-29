@@ -16,7 +16,6 @@ class AjouterOffreType extends AbstractType
             ->add('montant')
             ->add('description')
             ->add('appelOffre')
-            ->add('user')
             ->add('save', SubmitType::class);
     }
 

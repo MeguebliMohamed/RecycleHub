@@ -17,25 +17,25 @@
                         <table>
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>Type
+                                <th scope="col"></th>
+                                <th scope="col">Type
                                     <!-- Bouton de tri -->
                                     <button class="sort-btn" data-col="2" data-order="asc">▲</button>
                                 </th>
-                                <th>Nom
+                                <th scope="col">Nom
                                 </th>
-                                <th>Description
+                                <th scope="col">Description
                                 </th>
-                                <th>Prix unit
+                                <th scope="col">Prix unit
                                     <!-- Bouton de tri -->
                                     <button class="sort-btn" data-col="4" data-order="asc">▲</button>
                                 </th>
-                                <th>Quantite
+                                <th scope="col">Quantite
                                     <!-- Bouton de tri -->
                                     <button class="sort-btn" data-col="5" data-order="asc">▲</button>
                                 </th>
-                                <th>Un</th>
-                                <th>Actions</th>
+                                <th scope="col">Un</th>
+                                <th scope="col">Actions</th>
                             </tr>
                             </thead>
                         </table>
@@ -83,6 +83,13 @@
                     </div>
                 </div>
             </div>
+            <!-- Pagination Bootstrap -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {{ knp_pagination_render(stocks) }}
+                </ul>
+            </nav>
+            <br>
             <br>
             <div class="form-group text-center">
                 <form action="{{ path('app_stocks_new') }}" method="GET">

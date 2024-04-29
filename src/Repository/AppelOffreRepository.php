@@ -45,4 +45,30 @@ class AppelOffreRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findBySearchTerm($searchTerm, $userId = null,$etat=null)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        if ($userId !== null) {
+            $qb->andWhere('u.user = :userId')
+                ->setParameter('userId', $userId);
+        }
+        if ($etat !== null) {
+            $qb->andWhere('u.etat = :etat')
+                ->setParameter('etat', $etat);
+        }
+
+        if ($searchTerm) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('u.titre', ':searchTerm')
+            ))
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+
 }

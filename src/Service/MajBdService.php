@@ -59,13 +59,14 @@ class MajBdService
 
                     // Mettre à jour l'état de l'offre gagnante en "Gagnante"
                     $offreGagnante->setEtat("Gagnante");
+                    $offreGagnante->setEtatPayment("En cours");
                     $this->entityManager->persist($offreGagnante);
                     $this->entityManager->flush();
 
                     // Mettre à jour l'état des autres offres en tant que perdantes
                     foreach ($offres as $offre) {
                         if ($offre !== $offreGagnante) {
-                            $offre->setEtat("échouées");
+                            $offre->setEtat("Perdue");
                             $this->entityManager->persist($offre);
                             $this->entityManager->flush();
                         }

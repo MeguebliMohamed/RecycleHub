@@ -9,7 +9,7 @@
 <div class="container2">
     <div class="card">
         <br>
-        <h1>Details</h1>
+        <h1 class="text-center">Details</h1>
         <br>
         <div class="row">
             <div class="col-md-6">
@@ -55,9 +55,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="text-center">
-                    <a href="{{ path('app_stocks_edit', {'id': stock.id}) }}" class="btn btn-warning mr-2">Modifier</a>
-                    <a href="#" onclick="confirmDeleting(event, '{{ path('app_stocks_delete', {'id': stock.id}) }}', '{{ csrf_token('delete' ~ stock.id) }}')" class="btn btn-danger mr-2">Supprimer</a>
-                    <a href="{{ path('app_stocks_index') }}" class="btn btn-primary">Retour à la liste</a>
+                    <a href="{{ path('app_stocks_edit', {'id': stock.id}) }}" class="btn btn-warning mr-2" style="border-radius: 15px;">Modifier</a>
+                    <a href="#" onclick="confirmDeleting(event, '{{ path('app_stocks_delete', {'id': stock.id}) }}', '{{ csrf_token('delete' ~ stock.id) }}')" class="btn btn-danger mr-2" style="border-radius: 15px">Supprimer</a>
+                    <a href="{{ path('app_stocks_index') }}" class="btn btn-primary" style="border-radius: 15px">Retour à la liste</a>
                 </div>
             </div>
         </div>
@@ -66,6 +66,7 @@
 </div>
 
 <style>
+
     .card {
         border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

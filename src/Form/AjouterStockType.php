@@ -15,7 +15,6 @@ class AjouterStockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user')
             ->add('type', ChoiceType::class, [
                 'label' => 'Type',
                 'choices' => [

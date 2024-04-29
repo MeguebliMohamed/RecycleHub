@@ -1,93 +1,60 @@
-{% extends './FrontTemplate.html.twig' %}
-
+{# templates/facture_appel_offre.html.twig #}
+{% extends './BackEndTemplate.html.twig' %}
 
 {% block body %}
-    <div class="container2">
+    <div class="container3">
         <div class="card">
             <div class="text-center">
-            <br>
-            <h1>Details Appel Offre</h1>
-            <br>
+                <h1 style="color: #057077;">Facture pour l'appel d'offre "{{ appeloffre.titre }}"</h1>
+                <p>Date de génération de la facture: <span style="color: #057077;">{{ "now"|date("Y-m-d H:i:s") }}</span></p>
+                <p>Titre de l'appel d'offre: <span style="color: #057077;">{{ appeloffre.titre }}</span></p>
+                <p>Description de l'appel d'offre: <span style="color: #057077;">{{ appeloffre.description }}</span></p>
+                <p>Prix initial: <span style="color: #057077;">{{ appeloffre.prixInitial }}</span></p>
+                <p>Date de début: <span style="color: #057077;">{{ appeloffre.dateDebut|date("Y-m-d H:i:s") }}</span></p>
+                <p>Date de fin: <span style="color: #057077;">{{ appeloffre.dateFin|date("Y-m-d H:i:s") }}</span></p>
+
+                <h2 style="color: #057077;">Stocks associés à l'appel d'offre:</h2>
+                <ul>
+                    {% for stock in appeloffre.stocks %}
+                        <li><span style="color: #057077;">{{ stock.nom }} - {{ stock.prixUnit }}</span></li>
+                    {% endfor %}
+                </ul>
+
+                <h2 style="color: #057077;">Offres associées à l'appel d'offre:</h2>
+                <ul>
+                    {% for offre in appeloffre.offre %}
+                        <li>Offre n°{{ loop.index }}: <span style="color: #057077;">{{ offre.montant }}</span></li>
+                    {% else %}
+                        <li>Aucune offre pour le moment.</li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="row text-center">
-                <table class="table">
-                    <tbody>
-                    <th>Titre</th>
-                    <td>{{ appeloffre.titre }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ appeloffre.description }}</td>
-                    </tr>
-                    <tr>
-                        <th>PrixInitial</th>
-                        <td>{{ appeloffre.prixInitial }}</td>
-                    </tr>
-                    <tr>
-                        <th>PrixFinal</th>
-                        <td>{{ appeloffre.prixFinal }}</td>
-                    </tr>
-                    <tr>
-                        <th>DateDebut</th>
-                        <td>{{ appeloffre.dateDebut ? appeloffre.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>DateFin</th>
-                        <td>{{ appeloffre.dateFin ? appeloffre.dateFin|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Etat</th>
-                        <td>{{ appeloffre.etat }}</td>
-                    </tr>
-                    <tr>
-                        <th>EtatPayment</th>
-                        <td>{{ appeloffre.etatPayment }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-12">
             <div class="text-center">
-                <a href="{{ path('app_appeloffre_edit', {'id': appeloffre.id}) }}" class="btn btn-warning mr-2">Modifier</a>
                 <a href="#"
                    onclick="confirmDeleting(event, '{{ path('app_offre_delete', {'id': appeloffre.id}) }}',
                            '{{ csrf_token('delete' ~ appeloffre.id) }}')"
                    class="btn btn-danger mr-2">Supprimer</a>
                 <a href="{{ path('app_appeloffre_index') }}" class="btn btn-primary">Retour à la liste</a>
-                <a href="{{ path('publish_on_facebook', {'id': appeloffre.id}) }}" class="btn btn-info"><i class="fab fa-facebook-square"></i> Partager sur Facebook</a>
-                {# Générer la facture en passant l'ID de l'appel d'offres #}
-                <a href="{{ path('generate_devis', {'id': appeloffre.id}) }}" class="btn btn-primary">Générer la facture</a>
-
             </div>
         </div>
-    </div>
-    <br>
 
+    </div>
 
     <style>
         .card {
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 80%;
-            margin: auto; /* pour centrer la carte horizontalement */
+            padding: 20px;
+            margin: 12px auto;
         }
 
-        img {
-            display: block; /* pour empêcher l'image de s'étendre sur toute la largeur */
-            margin: auto; /* centrer l'image à l'intérieur de son conteneur */
-            margin-bottom: 20px; /* ajout de marge en bas de l'image */
-        }
-
-        .table {
-            margin-bottom: 20px; /* ajout de marge en bas du tableau */
+        .container3 {
+            display: flex;
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+            height: auto; /* Assurez-vous que le conteneur parent occupe toute la hauteur de la fenêtre */
+            width: 100%;
         }
     </style>
 {% endblock %}
-
-
-
-

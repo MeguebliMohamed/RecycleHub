@@ -4,85 +4,105 @@ namespace App\Controller\mohamedController;
 
 use App\Entity\AppelOffre;
 use App\Entity\Stocks;
+use App\Entity\User;
 use App\Form\AjoutAppelsoffresType;
 use App\Form\AppelOffreType;
 use App\Form\rechAvanceAppelOffre;
 use App\Repository\AppelOffreRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Facebook\Facebook;
+use Symfony\Component\Security\Core\Security;
+
 #[Route('/appeloffre')]
 class AppelOffreController extends AbstractController
 {
+    private static ?int $idUser = 3; // Déclaration de la variable statique $id
+
     #[Route('/', name: 'app_appeloffre_index', methods: ['GET', 'POST'])]
-    public function index(AppelOffreRepository $appelOffreRepository, Request $request): Response
-    {
-        $apoffre = $appelOffreRepository->findAll();
-        $form = $this->createForm(rechAvanceAppelOffre::class);
-        $form->handleRequest($request);
+    public function index(UserRepository $userRepository, AppelOffreRepository $appelOffreRepository, Request $request,
+                          PaginatorInterface $paginator, Security $security): Response
+    {   $user = $userRepository->findOneBy(['id' => self::$idUser]);
+        //$user = $security->getUser();
+        $searchTerm = $request->query->get('search');
 
-        if ($form->isSubmitted()) {
-            // Réinitialiser le formulaire s'il s'agit d'une action de réinitialisation
+        // Récupérer le rôle de l'utilisateur connecté
+        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
 
-            if ($form->isValid()) {
-                // Récupérer les données du formulaire
-                $data = $form->getData();
-
-                // Construire la requête en fonction des critères de recherche
-                $queryBuilder = $appelOffreRepository->createQueryBuilder('e');
-
-                // Ajouter les conditions de recherche en fonction des champs du formulaire
-                if (!empty($data['titre'])) {
-                    $queryBuilder
-                        ->andWhere('e.titre LIKE :titre')
-                        ->setParameter('titre', '%' . $data['titre'] . '%');
-                }
-                if (!empty($data['description'])) {
-                    $queryBuilder
-                        ->andWhere('e.description LIKE :description')
-                        ->setParameter('description', '%' . $data['description'] . '%');
-                }
-                if (!empty($data['dateFin'])) {
-                    $queryBuilder
-                        ->andWhere('e.dateFin <= :dateFin')
-                        ->setParameter('dateFin', $data['dateFin']);
-                }
-                if (!empty($data['prixInitial'])) {
-                    $queryBuilder
-                        ->andWhere('e.prixInitial = :prixInitial')
-                        ->setParameter('prixInitial', $data['prixInitial']);
-                }
-
-                // Exécuter la requête
-                $results = $queryBuilder->getQuery()->getResult();
-
-                // Afficher les résultats, les transmettre à un template, etc.
-                return $this->render('appel_offre/index.html.twig', [
-                    'appelsoffres' => $results,
-                    'recherche' => $form->createView(),
-                ]);
-            }
+        switch ($role) {
+            case 'ROLE_ADMIN':
+                // Logique d'affichage pour l'administrateur
+                $apoffre = $appelOffreRepository->findBySearchTerm($searchTerm);
+                break;
+            case 'ROLE_COLLECTEUR':
+                // Logique d'affichage pour le collecteur
+                $userId = $user->getId();
+                $apoffre = $appelOffreRepository->findBySearchTerm($searchTerm,$userId);
+                break;
+            case 'ROLE_SOCIETE':
+                // Logique d'affichage pour la société
+                $userId = $user->getId();
+                $apoffre = $appelOffreRepository->findBySearchTerm($searchTerm, null,'En cours');
+                break;
+            default:
+                throw new \Exception("Rôle non pris en charge");
         }
 
-// Si le formulaire n'est pas soumis ou n'est pas valide, afficher le formulaire vide
-        return $this->render('appel_offre/index.html.twig', [
-            'appelsoffres' => $apoffre,
-            'recherche' => $form->createView(),
-        ]);
+        $pagination = $paginator->paginate(
+            $apoffre,
+            $request->query->getInt('page', 1),
+            5
+        );
 
-        return $this->render('appel_offre/index.html.twig', [
-            'appelsoffres' => $apoffre,
-            'recherche' => $form->createView(),
+        // Sélectionner le template approprié en fonction du rôle
+        $template = match ($role) {
+            'ROLE_ADMIN' => 'MohamedTemplate/Admin/appel_offre/index.html.twig',
+            'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/index.html.twig',
+            'ROLE_SOCIETE' => 'MohamedTemplate/Societe/appel_offre/index.html.twig',
+        };
+        $minPrice = null;
+        $maxPrice = null;
+
+        foreach ($pagination as $appelOffre) {
+            $prixinitial = $appelOffre->getPrixinitial();
+
+            if ($minPrice === null || $prixinitial < $minPrice) {
+                $minPrice = $prixinitial;
+            }
+
+            if ($maxPrice === null || $prixinitial > $maxPrice) {
+                $maxPrice = $prixinitial;
+            }
+        }
+        // Afficher les résultats, les transmettre à un template, etc.
+        return $this->render($template, [
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
+            'appelsoffres' => $pagination,
+            'searchTerm' => $searchTerm,
         ]);
     }
 
-
     #[Route('/new', name: 'app_appeloffre_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(UserRepository $userRepository,Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $userRepository->findOneBy(['id' => self::$idUser]);
+        //$user = $security->getUser();
+
+        // Récupérer le rôle de l'utilisateur connecté
+        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
+        switch ($role) {
+            case 'ROLE_COLLECTEUR':
+                // Logique d'affichage pour le collecteur
+                break;
+            default:
+                throw new \Exception("Rôle non pris en charge");
+        }
         $articles = $entityManager->createQuery(
             'SELECT s FROM App\Entity\Stocks s WHERE s.appelOffre IS NULL OR s.appelOffre = 0'
         )->getResult();
@@ -101,25 +121,59 @@ class AppelOffreController extends AbstractController
             return $this->redirectToRoute('app_appeloffre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('appel_offre/new.html.twig', [
+        // Sélectionner le template approprié en fonction du rôle
+        $template = match ($role) {
+            'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/new.html.twig',
+        };
+
+        return $this->renderForm($template, [
             'appeloffre' => $appelOffre,
             'form' => $form,
             'stockList' => $articles,
         ]);
+
     }
 
 
     #[Route('/{id}', name: 'app_appeloffre_show', methods: ['GET'])]
-    public function show(AppelOffre $appelOffre): Response
+    public function show(UserRepository $userRepository,AppelOffre $appelOffre): Response
     {
-        return $this->render('appel_offre/show.html.twig', [
+
+
+        $user = $userRepository->findOneBy(['id' => self::$idUser]);
+        //$user = $security->getUser();
+
+        // Récupérer le rôle de l'utilisateur connecté
+        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
+
+        // Sélectionner le template approprié en fonction du rôle
+        $template = match ($role) {
+            'ROLE_ADMIN' => 'MohamedTemplate/Admin/appel_offre/show.html.twig',
+            'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/show.html.twig',
+            'ROLE_SOCIETE' => 'MohamedTemplate/Societe/appel_offre/show.html.twig',
+        };
+
+        return $this->render($template, [
             'appeloffre' => $appelOffre,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_appeloffre_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, AppelOffre $appelOffre, EntityManagerInterface $entityManager): Response
-    { $form = $this->createForm(AppelOffreType::class, $appelOffre, [
+    public function edit(UserRepository $userRepository,Request $request, AppelOffre $appelOffre, EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->findOneBy(['id' => self::$idUser]);
+        //$user = $security->getUser();
+
+        // Récupérer le rôle de l'utilisateur connecté
+        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
+        switch ($role) {
+            case 'ROLE_COLLECTEUR':
+                // Logique d'affichage pour le collecteur
+                break;
+            default:
+                throw new \Exception("Rôle non pris en charge");
+        }
+        $form = $this->createForm(AppelOffreType::class, $appelOffre, [
         'appelOffre' => $appelOffre,
     ]);
         $form->handleRequest($request);
@@ -145,7 +199,12 @@ class AppelOffreController extends AbstractController
             return $this->redirectToRoute('app_appeloffre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('appel_offre/edit.html.twig', [
+        // Sélectionner le template approprié en fonction du rôle
+        $template = match ($role) {
+            'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/edit.html.twig',
+        };
+
+        return $this->renderForm($template, [
             'appeloffre' => $appelOffre,
             'form' => $form,
         ]);

@@ -1,0 +1,344 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}Table de stocks{% endblock %}
+
+{% block css %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <style>
+        /* Ajout de styles pour les cartes */
+        .card {
+            margin-right: 20px; /* Espacement entre les cartes */
+            width: auto; /* Largeur fixe des cartes */
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container3 {
+            margin-right: 20px; /* Espacement entre les cartes */
+            flex: 0 0 auto; /* Empêche le redimensionnement des cartes */
+            width: auto; /* Largeur fixe des cartes */
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 760px;
+            justify-content: center;
+            margin: 20px;
+            background-color: #D3D3D3; /* Vert */
+        }
+
+        .cover {
+            position: relative;
+            padding: 0px 30px;
+            margin-top: 0px;
+            margin-left: 200px;
+            margin-right: 200px;
+            width: auto;
+            height: 500px;
+        }
+
+        .left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .right {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .scroll-images {
+            position: relative;
+            width: auto;
+            padding: 40px 0px;
+            height: auto;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .child {
+            border-radius: 15px;
+            min-width: 250px;
+            height: 450px;
+            padding: 0px 15px;
+            margin: 1px 10px;
+            border: 1px solid #f1f1f1;
+            overflow: hidden;
+            -webkit-box-shadow: 0px 0px 15px 2px rgb(0 0 0 / 10%);
+            box-shadow: 0px 0px 15px 2px rgb(0 0 0 / 10%);
+        }
+
+        /* Ajout de nouvelles classes de couleur */
+        .child-success {
+            background-color: #c2fbd7; /* Vert */
+        }
+
+        .child-warning {
+            background-color: #fdfd96; /* Jaune */
+        }
+
+        .child-danger {
+            background-color: #f8d7da; /* Rouge */
+        }
+
+        .child-info {
+            background-color: #d1ecf1; /* Bleu */
+        }
+
+        .btn-custom2 {
+            background-color: #c2fbd7;
+            border-radius: 100px;
+            box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset, rgba(44, 187, 99, .15) 0 1px 2px, rgba(44, 187, 99, .15) 0 2px 4px, rgba(44, 187, 99, .15) 0 4px 8px, rgba(44, 187, 99, .15) 0 8px 16px, rgba(44, 187, 99, .15) 0 16px 32px;
+            color: green;
+            cursor: pointer;
+            display: inline-block;
+            font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+            padding: 7px 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 250ms;
+            border: 0;
+            font-size: 16px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .btn-custom2:hover {
+            box-shadow: rgba(44, 187, 99, .35) 0 -25px 18px -14px inset, rgba(44, 187, 99, .25) 0 1px 2px, rgba(44, 187, 99, .25) 0 2px 4px, rgba(44, 187, 99, .25) 0 4px 8px, rgba(44, 187, 99, .25) 0 8px 16px, rgba(44, 187, 99, .25) 0 16px 32px;
+            transform: scale(1.05) rotate(-1deg);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <br>
+    <style>
+        .text-size {
+            font-size: 14px; /* Définissez la taille de texte souhaitée */
+        }
+    </style>
+    <div class="container3">
+        <br>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div>
+                    <div class="card">
+                        <div class="card-body text-size d-flex flex-row justify-content-between">
+                            <div class="alert alert-success" role="alert"> Offre Valider</div>
+                            <div class="alert alert-info" role="alert">Paiement en cours</div>
+                            <div class="alert alert-warning" role="alert"> Offre en cours</div>
+                            <div class="alert alert-danger" role="alert"> Offre perdue</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="card">
+                <div class="row mx-2">
+                    <div class="col-md-6">
+                        <form action="{{ path('app_offre_index') }}" method="get" class="mb-3" id="searchForm">
+                            <div class="form-group d-inline-block mr-2">
+                                <input type="text" class="form-control" name="search" id="searchInput" placeholder="Rechercher..." value="{{ searchTerm }}" style="width: 200px; font-size: 14px;">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="minPrice">Min Price:</label>
+                                <input type="range" id="minPrice" name="minPrice" min="{{ minPrice }}" max="{{ maxPrice }}" value="{{ minPrice }}" step="1">
+                                <span id="minPriceValue">{{ minPrice }}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-12">
+                                <label for="maxPrice">Max Price:</label>
+                                <input type="range" id="maxPrice" name="maxPrice" min="{{ minPrice }}" max="{{ maxPrice }}" value="{{ maxPrice }}" step="1">
+                                <span id="maxPriceValue">{{ maxPrice }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cover">
+            <button class="left" onclick="leftScroll()" style="background-color: transparent; border: none; outline: none; cursor: pointer; font-size: 25px;">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+
+            <div class="scroll-images">
+                {% for offre in offres %}
+                    {% set cardClass = '' %}
+                    {% if offre.etat == 'Gagnante' and offre.etatPayment == 'paye' %}
+                        {% set cardClass = 'child-success' %}
+                    {% elseif offre.etat == 'Gagnante' and offre.etatPayment == 'En cours' %}
+                        {% set cardClass = 'child-info' %}
+                    {% elseif offre.etat == 'En cours' %}
+                        {% set cardClass = 'child-warning' %}
+                    {% elseif offre.etat == 'Perdue' %}
+                        {% set cardClass = 'child-danger' %}
+                    {% endif %}
+                    <div class="child {{ cardClass }}">
+                        <h5 class="card-title text-center">Offre {{ loop.index }}</h5>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Montant:</strong> {{ offre.montant }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Date Soumission:</strong> {{ offre.dateSoumission ? offre.dateSoumission|date('Y-m-d H:i:s') : '' }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Description:</strong> {{ offre.description }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Etat:</strong> {{ offre.etat }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Etat de Paiement:</strong> {{ offre.etatPayment }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Date de Paiement:</strong> {{ offre.datePayment ? offre.datePayment|date('Y-m-d H:i:s') : '' }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="{{ path('app_offre_edit', {'id': offre.id}) }}" title="Modifier">
+                                    <img src="/mohamed_Css/img/edit.png" style="width: 40px; height: 35px;">
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ path('app_offre_show', {'id': offre.id}) }}" title="Info">
+                                    <img src="/mohamed_Css/img/information.png" style="width: 40px; height: 35px;">
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" onclick="confirmDeleting(event, '{{ path('app_offre_delete', {'id': offre.id}) }}', '{{ csrf_token('delete' ~ offre.id) }}')" title="Delete">
+                                    <img src="/mohamed_Css/img/bin.png" style="width: 40px; height: 35px;" alt="Delete">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="right" onclick="rightScroll()" style="background-color: transparent; border: none; outline: none; cursor: pointer; font-size: 25px;">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+        </div>
+
+        <!-- Bouton de recherche de nouvelles opportunités -->
+        <div class="form-group text-center mt-4">
+            <form action="{{ path('app_appeloffre_index') }}" method="GET">
+                <button type="submit" class="btn-custom2">Recherche de nouvelles opportunités</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const scrollImages = document.querySelector(".scroll-images");
+            const scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
+            const leftButton = document.querySelector(".left");
+            const rightButton = document.querySelector(".right");
+
+            function checkScroll() {
+                const currentScroll = scrollImages.scrollLeft;
+                if (currentScroll === 0) {
+                    leftButton.setAttribute("disabled", "true");
+                    rightButton.removeAttribute("disabled");
+                } else if (currentScroll === scrollLength) {
+                    rightButton.setAttribute("disabled", "true");
+                    leftButton.removeAttribute("disabled");
+                } else {
+                    leftButton.removeAttribute("disabled");
+                    rightButton.removeAttribute("disabled");
+                }
+            }
+
+            scrollImages.addEventListener("scroll", checkScroll);
+            window.addEventListener("resize", checkScroll);
+            checkScroll();
+
+            function leftScroll() {
+                scrollImages.scrollBy({
+                    left: -200,
+                    behavior: "smooth"
+                });
+            }
+
+            function rightScroll() {
+                scrollImages.scrollBy({
+                    left: 200,
+                    behavior: "smooth"
+                });
+            }
+
+            leftButton.addEventListener("click", leftScroll);
+            rightButton.addEventListener("click", rightScroll);
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const minPriceSlider = document.getElementById('minPrice');
+            const maxPriceSlider = document.getElementById('maxPrice');
+            const minPriceValue = document.getElementById('minPriceValue');
+            const maxPriceValue = document.getElementById('maxPriceValue');
+            const cards = document.querySelectorAll('.cover .scroll-images .child');
+
+            // Mettez à jour les valeurs de prix initial lors du changement de slider
+            minPriceSlider.addEventListener('input', function() {
+                minPriceValue.textContent = this.value;
+                filterCoverByPrice();
+            });
+
+            maxPriceSlider.addEventListener('input', function() {
+                maxPriceValue.textContent = this.value;
+                filterCoverByPrice();
+            });
+
+            // Fonction pour filtrer le tableau par intervalle de prix
+            function filterCoverByPrice() {
+                const minPrice = parseInt(minPriceSlider.value);
+                const maxPrice = parseInt(maxPriceSlider.value);
+
+                cards.forEach(card => {
+                    const priceElements = card.querySelectorAll('p'); // Sélectionnez tous les éléments <p> dans la carte
+                    priceElements.forEach(element => {
+                        const textContent = element.textContent.trim();
+                        if (textContent.startsWith('Montant:')) {
+                            const price = parseInt(textContent.split(':')[1].trim());
+                            if (price >= minPrice && price <= maxPrice) {
+                                card.style.display = 'block'; // Affichez la carte si le montant est dans l'intervalle sélectionné
+                            } else {
+                                card.style.display = 'none'; // Sinon, masquez la carte
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Filtrer initialement les éléments en fonction des valeurs initiales des curseurs
+            filterCoverByPrice();
+        });
+
+
+    </script>
+{% endblock %}
