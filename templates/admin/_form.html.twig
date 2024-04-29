@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {{ form_widget(form) }}
+<div class="g-recaptcha" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
+   <!-- <button class="btn">{{ button_label|default('Save') }}</button> -->
+<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

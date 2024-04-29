@@ -1,0 +1,68 @@
+{% extends 'BackEndTemplate.html.twig' %}
+
+{% block title %}Listes des Utilisateur RecycleHub{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center my-4">Listes des Utilisateur RecycleHub</h1>
+        <form action="{{ path('app_admin_index') }}" method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchTerm" placeholder="Rechercher..." value="{{ searchTerm }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Roles</th>
+                    <th>Prenom</th>
+                    <th>Adresse</th>
+                    <th>Cin</th>
+                    <th>Telephone</th>
+                    <th>Rib</th>
+                    <th>MatFiscal</th>
+                    <th>NbrePoint</th>
+                    <th>Email</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in pagination %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>{{ user.prenom }}</td>
+                        <td>{{ user.adresse }}</td>
+                        <td>{{ user.cin }}</td>
+                        <td>{{ user.telephone }}</td>
+                        <td>{{ user.rib }}</td>
+                        <td>{{ user.MatFiscal }}</td>
+                        <td>{{ user.NbrePoint }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.nom }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_show', {'id': user.id}) }}" class="btn btn-primary btn-sm">Show</a>
+                            <a href="{{ path('app_admin_edit', {'id': user.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="13" class="text-center">No records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}

@@ -3,11 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    {% block titre %} <title>INFINITYFARM</title>{% endblock %}
+    {% block titre %} <title>RECYCLE_HUB</title> {% endblock %}
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
-
     <!-- Favicon -->
     <link href="templateFront/img/favicon.ico" rel="icon">
 
@@ -23,9 +22,11 @@
         <link href="{{ asset('templateFront/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('templateFront/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}"
               rel="stylesheet"/>
+
     {% endblock %}
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('templatefront/css/style.css') }}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -36,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center">
-                        <p><i class="fa fa-envelope mr-2"></i>contact@infinityfarm.com</p>
+                        <p><i class="fa fa-envelope mr-2"></i>contact@recyclehub.tn</p>
                         <p class="text-body px-3">|</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+216 71 000 000</p>
                     </div>
@@ -71,7 +72,7 @@
         <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
             <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
                 <a class="navbar-brand">
-                    <h1 class="m-0 text-primary" style="font-size: 28px;"><span class="text-dark">INFINITY</span>FARM
+                    <h1 class="m-0 text-primary" style="font-size: 28px;"><span class="text-dark">RECYCLE</span>HUB
                     </h1>
                 </a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -101,7 +102,7 @@
     <!-- Header Start -->
 
 {% endblock %}
-{% block contenu %}
+{% block body %}
     <!-- Carousel Start -->
     <div class="container-fluid p-0">
         <div id="header-carousel" class="carousel slide" data-ride="carousel">
@@ -882,9 +883,12 @@
     <!-- Contact Javascript File -->
     <script src="{{ asset('templateFront/mail/jqBootstrapValidation.min.js') }}"></script>
     <script src="{{ asset('templateFront/mail/contact.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('mohamed_Css/script.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="{{ asset('templateFront/js/main.js') }}"></script>
+
 {% endblock %}
 
 </body>
