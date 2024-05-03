@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/offre')]
 class OffreController extends AbstractController
 {
-    private static ?int $idUser = 2; // Déclaration de la variable statique $id
+    private static ?int $idUser = 1; // Déclaration de la variable statique $id
     #[Route('/', name: 'app_offre_index', methods: ['GET'])]
     public function index(UserRepository $userRepository,OffreRepository $offreRepository,Request $request,
                           PaginatorInterface $paginator, Security $security): Response
@@ -89,7 +89,7 @@ class OffreController extends AbstractController
         $user = $userRepository->findOneBy(['id' => self::$idUser]);
         //$user = $security->getUser();
         $offre = new Offre();
-        $offre->setUser($user)
+        $offre->setUser($user);
         $form = $this->createForm(AjouterOffreType::class, $offre);
         // Récupérer l'AppelOffre associé à partir de l'id
 
@@ -156,4 +156,26 @@ class OffreController extends AbstractController
 
         return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/checkout', name: 'checkout', methods: ['POST'])]
+    public function checkout(Request $request, Offre $offre, EntityManagerInterface $entityManager): Response
+    {
+        $stripe = new \Stripe\StripeClient('sk_test_51OoTIhIZwMThMQrbvciH7ytahyGar4F8JmIkuuzTFQkxrVfhzO1hWwmyW4ZQErZ72BAUuwxNmIIybQWwCn6xNnzh00sy9kHamj');
+        $checkout_session = $stripe->checkout->sessions->create([
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => 'T-shirt',
+                    ],
+                    'unit_amount' => 2000,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => 'http://localhost:4242/success',
+            'cancel_url' => 'http://localhost:4242/cancel',
+        ]);
+    }
+
 }
+

@@ -56,13 +56,13 @@ class MajBdService
 
                     // La première offre dans la liste triée est l'offre gagnante
                     $offreGagnante = $offres[0];
-
-                    // Mettre à jour l'état de l'offre gagnante en "Gagnante"
-                    $offreGagnante->setEtat("Gagnante");
-                    $offreGagnante->setEtatPayment("En cours");
-                    $this->entityManager->persist($offreGagnante);
-                    $this->entityManager->flush();
-
+                    if ($offreGagnante->getEtat()!='Gagnante') {
+                        // Mettre à jour l'état de l'offre gagnante en "Gagnante"
+                        $offreGagnante->setEtat("Gagnante");
+                        $offreGagnante->setEtatPayment("En cours");
+                        $this->entityManager->persist($offreGagnante);
+                        $this->entityManager->flush();
+                    }
                     // Mettre à jour l'état des autres offres en tant que perdantes
                     foreach ($offres as $offre) {
                         if ($offre !== $offreGagnante) {
@@ -71,6 +71,11 @@ class MajBdService
                             $this->entityManager->flush();
                         }
                     }
+                }else{
+                    $appelOffre->setEtat("Echouee");
+                    $appelOffre->setEtatPayment(null);
+                    $this->entityManager->persist($appelOffre);
+                    $this->entityManager->flush();
                 }
             }
         }

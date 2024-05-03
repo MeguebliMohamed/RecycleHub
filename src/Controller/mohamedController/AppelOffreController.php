@@ -10,7 +10,9 @@ use App\Form\AppelOffreType;
 use App\Form\rechAvanceAppelOffre;
 use App\Repository\AppelOffreRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Facebook\Exceptions\FacebookResponseException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Facebook\Facebook;
 use Symfony\Component\Security\Core\Security;
+use function PHPUnit\Framework\equalTo;
 
 #[Route('/appeloffre')]
 class AppelOffreController extends AbstractController
@@ -68,7 +71,7 @@ class AppelOffreController extends AbstractController
         $minPrice = null;
         $maxPrice = null;
 
-        foreach ($pagination as $appelOffre) {
+        foreach ($apoffre as $appelOffre) {
             $prixinitial = $appelOffre->getPrixinitial();
 
             if ($minPrice === null || $prixinitial < $minPrice) {
@@ -79,6 +82,7 @@ class AppelOffreController extends AbstractController
                 $maxPrice = $prixinitial;
             }
         }
+        if ($role=='ROLE_COLLECTEUR'){$pagination=$apoffre;}
         // Afficher les résultats, les transmettre à un template, etc.
         return $this->render($template, [
             'minPrice' => $minPrice,
@@ -107,13 +111,14 @@ class AppelOffreController extends AbstractController
             'SELECT s FROM App\Entity\Stocks s WHERE s.appelOffre IS NULL OR s.appelOffre = 0'
         )->getResult();
         $appelOffre = new AppelOffre();
+        $appelOffre->getUser($user);
         $form = $this->createForm(AjoutAppelsoffresType::class, $appelOffre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $selectedStockIds = $request->request->get('selectedStockIds');
-         //   dump($request->request->all());
-           // die(); // ou exit();
+         dump($request->request->all());
+            die(); // ou exit();
             // Enregistrez les données si nécessaire
             $appelOffre->setEtat('En cours');
             $entityManager->persist($appelOffre);
@@ -218,6 +223,23 @@ class AppelOffreController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute('app_appeloffre_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/valide', name: 'app_appeloffre_valide', methods: ['GET', 'POST'])]
+    public function valide(Request $request, AppelOffre $appelOffre, EntityManagerInterface $entityManager): Response
+    {
+        $offres = $appelOffre->getOffre();
+        foreach ($offres as $offre) {
+            if ($offre->getEtat() =="Gagnante" ) {
+                $offre->setEtatPayment('paye');
+                $offre->setDatePayment(new DateTime());
+                $entityManager->persist($offre);
+                $entityManager->flush();
+            }
+        }
+        $appelOffre->setEtatPayment('paye');
+        $entityManager->persist($appelOffre);
+        $entityManager->flush();
         return $this->redirectToRoute('app_appeloffre_index', [], Response::HTTP_SEE_OTHER);
     }
 

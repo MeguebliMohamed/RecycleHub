@@ -69,9 +69,11 @@
                                         </div>
                                         <br>
                                         <div class="form-group">
-                                            {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+                                            {{ form_label(form.dateFin, 'Date final') }}
+                                            {{ form_widget(form.dateFin, {'attr': {'class': 'form-control', 'data-toggle': 'flatpickr'}}) }}
                                             {{ form_errors(form.dateFin) }}
                                         </div>
+
                                         <br>
                                         <br>
                                         <div class="form-group">
@@ -92,7 +94,16 @@
                                         <br>
                                     </div>
                                 </div>
-
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        flatpickr('[data-toggle="flatpickr"]', {
+                                            // Options de configuration de Flatpickr
+                                            dateFormat: 'Y-m-d H:i',
+                                            enableTime: true,
+                                            // Ajoutez d'autres options personnalisées si nécessaire
+                                        });
+                                    });
+                                </script>
                                 {{ form_end(form) }}
                             </div>
                         </div>

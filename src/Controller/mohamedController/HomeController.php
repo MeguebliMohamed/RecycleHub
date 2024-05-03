@@ -17,5 +17,4 @@ class HomeController extends AbstractController
         $majBdService->mettreAJourAppelOffresEtOffres();
         return $this->render('FrontTemplate.html.twig');
     }
-
 }

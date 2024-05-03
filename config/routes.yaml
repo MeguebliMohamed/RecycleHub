@@ -8,3 +8,7 @@ generate_facture:
 generate_devis:
   path: '/devis/generate'
   controller: 'App\Controller\mohamedController\DevisController::generateDevisAction'
+
+generate_invoice:
+  path: '/generate-invoice/{id}'
+  controller: 'App\Controller\mohamedController\PdfcaisseController::generateInvoice'

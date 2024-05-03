@@ -11,6 +11,31 @@
             <div class="form-group text-center">
                 <h1>Table de stocks</h1>
             </div>
+            <div class="row mx-2">
+                <div class="col-md-6">
+                    <form action="{{ path('app_stocks_index') }}" method="get" class="mb-3" id="searchForm">
+                        <div class="form-group d-inline-block mr-2">
+                            <input type="text" class="form-control" name="search" id="searchInput" placeholder="Rechercher..." value="{{ searchTerm }}" style="width: 200px; font-size: 14px;">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="minPrice">Min Price:</label>
+                            <input type="range" id="minPrice" name="minPrice" min="{{ minPrice }}" max="{{ maxPrice }}" value="{{ minPrice }}" step="1">
+                            <span id="minPriceValue">{{ minPrice }}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-12">
+                            <label for="maxPrice">Max Price:</label>
+                            <input type="range" id="maxPrice" name="maxPrice" min="{{ minPrice }}" max="{{ maxPrice }}" value="{{ maxPrice }}" step="1">
+                            <span id="maxPriceValue">{{ maxPrice }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="text-center">
                 <div class="container2">
                     <div class="tbl-header">
@@ -258,5 +283,40 @@
         });
     </script>
 
+    <!-- Script pour filtrer le tableau par intervalle de prix -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const minPriceSlider = document.getElementById('minPrice');
+            const maxPriceSlider = document.getElementById('maxPrice');
+            const minPriceValue = document.getElementById('minPriceValue');
+            const maxPriceValue = document.getElementById('maxPriceValue');
 
+            // Mettez à jour les valeurs de prix initial lors du changement de slider
+            minPriceSlider.addEventListener('input', function() {
+                minPriceValue.textContent = this.value;
+                filterTableByPrice();
+            });
+
+            maxPriceSlider.addEventListener('input', function() {
+                maxPriceValue.textContent = this.value;
+                filterTableByPrice();
+            });
+
+            // Fonction pour filtrer le tableau par intervalle de prix
+            function filterTableByPrice() {
+                const minPrice = parseInt(minPriceSlider.value);
+                const maxPrice = parseInt(maxPriceSlider.value);
+                const rows = document.querySelectorAll('.tbl-content table tbody tr');
+
+                rows.forEach(row => {
+                    const priceCell = parseInt(row.querySelector('td:nth-child(5)').textContent); // Supposant que le prix est dans la troisième colonne
+                    if (priceCell >= minPrice && priceCell <= maxPrice) {
+                        row.style.display = 'table-row'; // Affichez la ligne si le prix est dans l'intervalle sélectionné
+                    } else {
+                        row.style.display = 'none'; // Sinon, masquez la ligne
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}

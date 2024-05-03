@@ -47,7 +47,7 @@ class AppelOffre
     private ?string $etatPayment = null;
 
     #[ORM\OneToMany(mappedBy: 'appelOffre', targetEntity: Stocks::class)]
-    #[Assert\Count(min: 1, minMessage: "L'appel d'offres doit contenir au moins un article.")]
+  //  #[Assert\Count(min: 1, minMessage: "L'appel d'offres doit contenir au moins un article.")]
     private Collection $stocks;
 
     #[ORM\ManyToOne(inversedBy: 'appelOffres')]

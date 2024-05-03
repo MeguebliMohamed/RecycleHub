@@ -13,7 +13,7 @@ class BackEndController extends AbstractController
     #[Route('/', name: 'back', methods: ['GET'])]
     public function index(ActiviteRepository $activiteRepository): Response
     {
-        return $this->render('BackEndTemplate.html.twig');
+        return $this->render('FrontTemplate.html.twig');
     }
 
 }
