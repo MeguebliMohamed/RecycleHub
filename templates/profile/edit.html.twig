@@ -1,0 +1,10 @@
+{% extends 'FrontTemplate.html.twig' %}
+
+{% block title %}Modifier Profile{% endblock %}
+
+{% block body %}
+    <h1>Modifier Profile</h1>
+
+    {{ include('profile/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% endblock %}

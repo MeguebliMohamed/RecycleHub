@@ -4,78 +4,162 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+//use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Table(name: "user")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this username')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: "nom", type: "string", length: 255, nullable: true)]
-    private ?string $nom;
+    #[ORM\Column(length: 180, unique: true)]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    private ?string $username = null;
 
-    #[ORM\Column(name: "prenom", type: "string", length: 255, nullable: true)]
-    private ?string $prenom;
+    #[ORM\Column]
+    private array $roles = [];
 
-    #[ORM\Column(name: "adresse", type: "string", length: 255, nullable: true)]
-    private ?string $adresse;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    private ?string $password = null;
 
-    #[ORM\Column(name: "telephone", type: "string", length: 20, nullable: true)]
-    private ?string $telephone;
+    #[ORM\Column(length: 50)]
+   // #[Assert\NotBlank(message: "Le prenom est obligatoire")]
+    private ?string $prenom = null;
 
-    #[ORM\Column(name: "status", type: "string", length: 20, nullable: true)]
-    private ?string $status;
+    #[ORM\Column(length: 100)]
+   // #[Assert\NotBlank(message: "Le champs adresse est obligatoire")]
+    private ?string $adresse = null;
 
-    #[ORM\Column(name: "role", type: "string", length: 20, nullable: true)]
-    private ?string $role;
+    #[ORM\Column(length: 8)]
+    //#[Assert\NotBlank(message: "Le champs cin est obligatoire")]
+    private ?string $cin = null;
 
-    #[ORM\Column(name: "password", type: "string", length: 255, nullable: true)]
-    private ?string $password;
+    #[ORM\Column(length: 12)]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    private ?string $telephone = null;
 
-    #[ORM\Column(name: "verifcode", type: "string", length: 10, nullable: true)]
-    private ?string $verifcode;
+    #[ORM\Column(length: 20)]
+    private ?string $rib = null;
 
-    #[ORM\Column(name: "cin", type: "string", length: 20, nullable: true)]
-    private ?string $cin;
+    #[ORM\Column(length: 50)]
+    private ?string $MatFiscal = null;
 
-    #[ORM\Column(name: "mat_fiscal", type: "string", length: 20, nullable: true)]
-    private ?string $matFiscal;
+    #[ORM\Column]
+    private ?int $NbrePoint = null;
 
-    #[ORM\Column(name: "rib", type: "string", length: 20, nullable: true)]
-    private ?string $rib;
+    #[ORM\Column(length: 255)]
+    private ?string $image_name = null;
 
-    #[ORM\Column(name: "nbre_point", type: "integer", nullable: true)]
-    private ?int $nbrePoint;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(name: "Email", type: "string", length: 255, nullable: true)]
-    private ?string $email;
+   // #[ORM\Column]
+    //private ?boolean $is_verified = null;
 
-    #[ORM\Column(name: "user_name", type: "string", length: 50, nullable: true)]
-    private ?string $userName;
+    #[ORM\Column(length: 50)]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    private ?string $email = null;
 
-    #[ORM\Column(name: "image", type: "string", length: 60, nullable: true)]
-    private ?string $image;
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
-    // Getters and setters
+    #[ORM\Column(length: 20)]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    private ?string $nom = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
     {
-        return $this->nom;
+        return (string) $this->username;
     }
 
-    public function setNom(?string $nom): static
+    public function setUsername(string $username): static
     {
-        $this->nom = $nom;
+        $this->username = $username;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getPrenom(): ?string
@@ -83,7 +167,7 @@ class User
         return $this->prenom;
     }
 
-    public function setPrenom(?string $prenom): static
+    public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
 
@@ -95,69 +179,9 @@ class User
         return $this->adresse;
     }
 
-    public function setAdresse(?string $adresse): static
+    public function setAdresse(string $adresse): static
     {
         $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?string $telephone): static
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(?string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(?string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getVerifcode(): ?string
-    {
-        return $this->verifcode;
-    }
-
-    public function setVerifcode(?string $verifcode): static
-    {
-        $this->verifcode = $verifcode;
 
         return $this;
     }
@@ -167,21 +191,21 @@ class User
         return $this->cin;
     }
 
-    public function setCin(?string $cin): static
+    public function setCin(string $cin): static
     {
         $this->cin = $cin;
 
         return $this;
     }
 
-    public function getMatFiscal(): ?string
+    public function getTelephone(): ?string
     {
-        return $this->matFiscal;
+        return $this->telephone;
     }
 
-    public function setMatFiscal(?string $matFiscal): static
+    public function setTelephone(string $telephone): static
     {
-        $this->matFiscal = $matFiscal;
+        $this->telephone = $telephone;
 
         return $this;
     }
@@ -191,21 +215,69 @@ class User
         return $this->rib;
     }
 
-    public function setRib(?string $rib): static
+    public function setRib(string $rib): static
     {
         $this->rib = $rib;
 
         return $this;
     }
 
-    public function getNbrePoint(): ?int
+    public function getMatFiscal(): ?string
     {
-        return $this->nbrePoint;
+        return $this->MatFiscal;
     }
 
-    public function setNbrePoint(?int $nbrePoint): static
+    public function setMatFiscal(string $MatFiscal): static
     {
-        $this->nbrePoint = $nbrePoint;
+        $this->MatFiscal = $MatFiscal;
+
+        return $this;
+    }
+
+    public function getNbrePoint(): ?int
+    {
+        return $this->NbrePoint;
+    }
+
+    public function setNbrePoint(int $NbrePoint): static
+    {
+        $this->NbrePoint = $NbrePoint;
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->image_name;
+    }
+
+    public function setImageName(string $image_name): static
+    {
+        $this->image_name = $image_name;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->is_verified;
+    }
+
+    public function setIsVerified(bool $is_verified): static
+    {
+        $this->is_verified = $is_verified;
 
         return $this;
     }
@@ -215,34 +287,35 @@ class User
         return $this->email;
     }
 
-    public function setEmail(?string $email): static
+    public function setEmail(string $email): static
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getUserName(): ?string
+    public function isVerified(): bool
     {
-        return $this->userName;
+        return $this->isVerified;
     }
 
-    public function setUserName(?string $userName): static
+    public function getNom(): ?string
     {
-        $this->userName = $userName;
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
 
-    public function setImage(?string $image): static
-    {
-        $this->image = $image;
 
-        return $this;
+    /*public function __toString()
+    {
+        return $this->nom;
     }
+   */
 }

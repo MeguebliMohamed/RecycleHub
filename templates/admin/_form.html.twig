@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{#  {{ form_widget(form) }} #}
+{{ form_start(form) }}
+
+    {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.prenom, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.adresse, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.cin, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.telephone, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
+  {{ form_row(form.rib, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.MatFiscal, {'attr': {'class': 'form-control'}}) }}
+<div class="g-recaptcha" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
+
+<div class="text-center mt-3">
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href=window.location.href;">Annuler</button>
+</div>
+
+{{ form_end(form) }}
+
+
+{{ form_end(form) }}

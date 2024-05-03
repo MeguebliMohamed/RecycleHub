@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Recycle_Hub.iml" filepath="$PROJECT_DIR$/.idea/Recycle_Hub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/RecycleHub.iml" filepath="$PROJECT_DIR$/.idea/RecycleHub.iml" />
     </modules>
   </component>
 </project>
