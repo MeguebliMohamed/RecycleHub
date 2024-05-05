@@ -1,5 +1,6 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Reclamation Form</h4>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfXgtEpAAAAABE2zc84p7kQwwMUosxs_a1uxIId"></script>
 
     {{ form_start(form, {'attr': {'class': 'row' , 'novalidate': 'novalidate'}}) }}
     <div class="col-xl">
@@ -62,9 +63,26 @@
                 {% do form.user.setRendered %}
                 {{ form_widget(form) }}
 
+
+
+                <script>
+                    function onClick(e) {
+                        e.preventDefault();
+                        grecaptcha.enterprise.ready(async () => {
+                            const token = await grecaptcha.enterprise.execute('6LfXgtEpAAAAABE2zc84p7kQwwMUosxs_a1uxIId', {action: 'LOGIN'});
+                        });
+                    }
+                </script>
+
+
+
+
+
                 <button  class="btn btn-primary">{{ button_label|default('Save') }}</button>
             </div>
         </div>
     </div>
     {{ form_end(form) }}
+
 </div>
+
