@@ -1,6 +1,6 @@
-#index:
- #  path: /
-  # controller: App\Controller\HomeController::index
+index:
+   path: /
+   controller: App\Controller\HomeController::index
 
 #register:
  #  path: /register
