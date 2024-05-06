@@ -1,0 +1,19 @@
+{% extends 'FrontTemplate.html.twig' %}
+
+{% block title %}Envoyer un Message pour l'administrateur!{% endblock %}
+
+{% block body %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<h1>
+    Envoi de Contact
+</h1>
+    <div>
+        {{ form(form) }}
+    </div>
+
+    <div class="g-recaptcha" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
+
+
+
+
+{% endblock %}
