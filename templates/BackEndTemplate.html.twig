@@ -19,7 +19,11 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
+<<<<<<< HEAD
     <link rel="icon" type="image/x-icon" href="{{ asset('backendtemplate/img/favicon/favicon.ico') }}" />
+=======
+    <link rel="icon" type="image/x-icon" href="{{ asset('backendtemplate/img/favicon/logo.png') }}" />
+>>>>>>> parent of a73035e (verssion 5/6/2024)
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -115,7 +119,11 @@
                   </g>
                 </svg>
               </span>
+<<<<<<< HEAD
                     <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+=======
+                    <span class="app-brand-text demo menu-text fw-bolder ms-2">RecycleHub</span>
+>>>>>>> parent of a73035e (verssion 5/6/2024)
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -128,6 +136,7 @@
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
                 <li class="menu-item active">
+<<<<<<< HEAD
                     <a href="{{ path('back') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div>Dashboard</div>
@@ -446,11 +455,36 @@
                         <div data-i18n="Documentation">Documentation</div>
                     </a>
                 </li>
+=======
+                    <a href={{ path('app_admin_new')}} class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Ajouter Utilisateur </div>
+                    </a>
+                </li>
+                <!--
+
+                <li class="menu-item">
+                    <a  class="menu-link" href={{ path('app_admin_index')}}>
+                        <i class="menu-icon tf-icons bx bx-layout"></i>
+                        <div data-i18n="Avis">Avis</div>
+                    </a>
+                </li>
+               -->
+                <li class="menu-item">
+                    <a  class="menu-link" href={{ path('app_admin_index')}}>
+                        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                        <div data-i18n="Account Settings">Listes Utilisateurs</div>
+                    </a>
+
+                </li>
+
+>>>>>>> parent of a73035e (verssion 5/6/2024)
             </ul>
         </aside>
         <!-- / Menu -->
 
         <!-- Layout container -->
+<<<<<<< HEAD
 
         <div class="layout-page">
             <!-- Navbar -->
@@ -1107,16 +1141,31 @@
                 <div class="content-backdrop fade"></div>
             </div>
             <!-- Content wrapper -->
+=======
+        <div class="layout-page">
+            <!-- Navbar -->
+            {% block body  %}
+
+            {% endblock %}
+>>>>>>> parent of a73035e (verssion 5/6/2024)
         </div>
 
         <!-- / Layout page -->
     </div>
+<<<<<<< HEAD
     {% endblock %}
+=======
+
+>>>>>>> parent of a73035e (verssion 5/6/2024)
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of a73035e (verssion 5/6/2024)
 <!-- Core JS -->
 <!-- build:js backendtemplate/vendor/js/core.js -->
 <script src="{{ asset('backendtemplate/vendor/libs/jquery/jquery.js') }}"></script>
@@ -1133,10 +1182,17 @@
 <!-- Main JS -->
 <script src="{{ asset('backendtemplate/js/main.js') }}"></script>
 
+<<<<<<< HEAD
 <!-- Page JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('backendtemplate/js/dashboards-analytics.js') }}"></script>
 <script src="{{ asset('mohamed_Css/script.js') }}"></script>
+=======
+
+<!-- Page JS -->
+<script src="{{ asset('backendtemplate/js/dashboards-analytics.js') }}"></script>
+
+>>>>>>> parent of a73035e (verssion 5/6/2024)
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>

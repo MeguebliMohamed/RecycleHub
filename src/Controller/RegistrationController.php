@@ -34,16 +34,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            //zedetha taw
-            //$roles = [$form->get('roles')->getData()];
-            //$user->setRoles($roles);
-
-
-
-
-
-
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,

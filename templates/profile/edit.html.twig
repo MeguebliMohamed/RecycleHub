@@ -1,5 +1,6 @@
 {% extends 'FrontTemplate.html.twig' %}
 
+<<<<<<< HEAD
 {% block stylesheets %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css"> <link rel="stylesheet" href="{{ asset('css/style.css') }}"> {% endblock %}
@@ -55,3 +56,13 @@
         </div>
     </div>
 {% endblock %}
+=======
+{% block title %}Modifier Profile{% endblock %}
+
+{% block body %}
+    <h1>Modifier Profile</h1>
+
+    {{ include('profile/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% endblock %}
+>>>>>>> parent of a73035e (verssion 5/6/2024)
