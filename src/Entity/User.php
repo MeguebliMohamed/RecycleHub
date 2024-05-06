@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -80,21 +82,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Le champs nom est obligatoire")]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AppelOffre::class)]
+    #[ORM\OneToMany(targetEntity: AppelOffre::class, mappedBy: 'user')]
     private Collection $appelOffres;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
+    #[ORM\OneToMany(targetEntity: Stocks::class, mappedBy: 'user')]
+    private Collection $stocks;
+
+    #[ORM\OneToMany(targetEntity: Offre::class, mappedBy: 'user')]
     private Collection $offres;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Stocks::class)]
-    private Collection $stocks;
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'iduser')]
+    private Collection $avis;
+
+    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'user')]
+    private Collection $reclamations;
 
     public function __construct()
     {
         $this->appelOffres = new ArrayCollection();
-        $this->offres = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+        $this->reclamations = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -391,6 +402,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->nom; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
+    }
+
     /**
      * @return Collection<int, Stocks>
      */
@@ -420,8 +436,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function __toString()
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
     {
-        return $this->nom; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): static
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setIduser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): static
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getIduser() === $this) {
+                $avi->setIduser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reclamation>
+     */
+    public function getReclamations(): Collection
+    {
+        return $this->reclamations;
+    }
+
+    public function addReclamation(Reclamation $reclamation): static
+    {
+        if (!$this->reclamations->contains($reclamation)) {
+            $this->reclamations->add($reclamation);
+            $reclamation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): static
+    {
+        if ($this->reclamations->removeElement($reclamation)) {
+            // set the owning side to null (unless already changed)
+            if ($reclamation->getUser() === $this) {
+                $reclamation->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -2,50 +2,49 @@
 
 namespace App\Repository;
 
-use App\Entity\AppelOffre;
+use App\Entity\Stocks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AppelOffre>
+ * @extends ServiceEntityRepository<Stocks>
  *
- * @method AppelOffre|null find($id, $lockMode = null, $lockVersion = null)
- * @method AppelOffre|null findOneBy(array $criteria, array $orderBy = null)
- * @method AppelOffre[]    findAll()
- * @method AppelOffre[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Stocks|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Stocks|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Stocks[]    findAll()
+ * @method Stocks[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AppelOffreRepository extends ServiceEntityRepository
+class StocksRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AppelOffre::class);
+        parent::__construct($registry, Stocks::class);
     }
 
 //    /**
-//     * @return AppelOffre[] Returns an array of AppelOffre objects
+//     * @return Stocks[] Returns an array of Stocks objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
+//            ->orderBy('s.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?AppelOffre
+//    public function findOneBySomeField($value): ?Stocks
 //    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
     public function findBySearchTerm($searchTerm, $userId = null,$etat=null)
     {
         $qb = $this->createQueryBuilder('u');
@@ -61,12 +60,11 @@ class AppelOffreRepository extends ServiceEntityRepository
 
         if ($searchTerm) {
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('u.titre', ':searchTerm')
+                $qb->expr()->like('u.nom', ':searchTerm')
             ))
                 ->setParameter('searchTerm', '%' . $searchTerm . '%');
         }
 
         return $qb->getQuery()->getResult();
     }
-
 }

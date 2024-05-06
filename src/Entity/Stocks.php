@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
+use App\Repository\StocksRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 #[ORM\Entity(repositoryClass: StocksRepository::class)]
-#[Vich\Uploadable]
 class Stocks
 {
     #[ORM\Id]
@@ -17,66 +15,47 @@ class Stocks
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotNull(message: 'Veuillez spécifier le type.')]
     private ?string $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\NotNull(message: 'Le prix doit être supérieur à zéro.')]
-    #[Assert\GreaterThan(value: 0, message: 'Le prix doit être supérieur à zéro.')]
     private ?float $prixUnit = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\NotNull(message: 'Le prix doit être supérieur à zéro.')]
-    #[Assert\GreaterThan(value: 0, message: 'Le prix doit être supérieur à zéro.')]
     private ?float $quantite = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotNull(message: "L'unité ne peut pas être vide.")]
     private ?string $unite = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeInterface $dateAjout ;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateAjout = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $etat = null;
-    #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'imageName')]
-    private ?File $imageFile = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
+
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updateAt = null;
+
     #[ORM\Column(nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/',
-        message: 'Veuillez fournir une latitude valide.'
-    )]
     private ?float $latitude = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/',
-        message: 'Veuillez fournir une longitude valide.'
-    )]
     private ?float $longitude = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'stocks')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?AppelOffre $appelOffre = null;
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]
     private ?User $user = null;
-    public function __construct()
-    {
-        $this->dateAjout = new \DateTimeImmutable(); // ou une autre valeur par défaut si nécessaire
-    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -162,6 +141,7 @@ class Stocks
     public function setDateAjout(?\DateTimeInterface $dateAjout): static
     {
         $this->dateAjout = $dateAjout;
+
         return $this;
     }
 
@@ -176,30 +156,7 @@ class Stocks
 
         return $this;
     }
-    /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     */
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
 
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
     public function getImageName(): ?string
     {
         return $this->imageName;
@@ -208,6 +165,18 @@ class Stocks
     public function setImageName(?string $imageName): static
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeImmutable
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(?\DateTimeImmutable $updateAt): static
+    {
+        $this->updateAt = $updateAt;
 
         return $this;
     }
@@ -236,8 +205,6 @@ class Stocks
         return $this;
     }
 
-
-
     public function getAppelOffre(): ?AppelOffre
     {
         return $this->appelOffre;
@@ -260,9 +227,5 @@ class Stocks
         $this->user = $user;
 
         return $this;
-    }
-    public function __toString()
-    {
-        return $this->nom; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
     }
 }

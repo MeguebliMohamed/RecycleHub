@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\OffreRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 class Offre
 {
@@ -15,15 +15,12 @@ class Offre
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\NotNull(message: 'Le prix doit être supérieur à zéro.')]
-    #[Assert\GreaterThan(value: 0, message: 'Le prix doit être supérieur à zéro.')]
     private ?float $montant = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateSoumission = null;
+    private ?\DateTimeInterface $dateSoumissiom = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\NotNull(message: "La description ne peut pas être vide.")]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -35,8 +32,7 @@ class Offre
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $datePayment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'offre')]
-    #[Assert\NotNull(message: "Tu dois choisir un appel d'offre")]
+    #[ORM\ManyToOne(inversedBy: 'offres')]
     private ?AppelOffre $appelOffre = null;
 
     #[ORM\ManyToOne(inversedBy: 'offres')]
@@ -59,14 +55,14 @@ class Offre
         return $this;
     }
 
-    public function getDateSoumission(): ?\DateTimeInterface
+    public function getDateSoumissiom(): ?\DateTimeInterface
     {
-        return $this->dateSoumission;
+        return $this->dateSoumissiom;
     }
 
-    public function setDateSoumission(?\DateTimeInterface $dateSoumission): static
+    public function setDateSoumissiom(?\DateTimeInterface $dateSoumissiom): static
     {
-        $this->dateSoumission = $dateSoumission;
+        $this->dateSoumissiom = $dateSoumissiom;
 
         return $this;
     }
@@ -141,13 +137,5 @@ class Offre
         $this->user = $user;
 
         return $this;
-    }
-    public function __toString()
-    {
-        return $this->description; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
-    }
-    public function __construct()
-    {
-        $this->dateSoumission = new \DateTimeImmutable(); // ou une autre valeur par défaut si nécessaire
     }
 }
