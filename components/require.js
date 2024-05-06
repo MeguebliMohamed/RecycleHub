@@ -2018,6 +2018,20 @@ var requirejs, require, define;
     req(cfg);
 }(this));
 var components = {
+    "packages": [
+        {
+            "name": "jquery",
+            "main": "jquery-built.js"
+        },
+        {
+            "name": "bootstrap-datetimepicker",
+            "main": "bootstrap-datetimepicker-built.js"
+        },
+        {
+            "name": "moment",
+            "main": "moment-built.js"
+        }
+    ],
     "baseUrl": "components"
 };
 if (typeof require !== "undefined" && require.config) {

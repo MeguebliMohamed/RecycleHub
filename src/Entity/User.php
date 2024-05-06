@@ -3,165 +3,95 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this username')]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
-    private ?string $username ;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nom = null;
 
-    #[ORM\Column]
-    private array $roles;
-
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-   // #[Assert\NotBlank(message: "Le champs password est obligatoire")]
-    private ?string $password = null;
-
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le prenom est obligatoire")]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: "Le champs adresse est obligatoire")]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 8)]
-   #[Assert\NotBlank(message: "Le champs cin est obligatoire")]
-    private ?string $cin = null;
-
-    #[ORM\Column(length: 12)]
-    #[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $role = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $verifcode = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cin = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $matFiscal = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $rib = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $MatFiscal = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $nbrePoint = null;
 
-    #[ORM\Column]
-    private ?int $NbrePoint = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $image_name = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
-   // #[ORM\Column]
-    //private ?boolean $is_verified = null;
-
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le champs email est obligatoire")]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $userName = null;
 
-    #[ORM\Column(length: 20)]
-    #[Assert\NotBlank(message: "Le champs nom est obligatoire")]
-    private ?string $nom = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AppelOffre::class)]
+    private Collection $appelOffres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
+    private Collection $offres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Stocks::class)]
+    private Collection $stocks;
+
+    public function __construct()
+    {
+        $this->appelOffres = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
+    public function getNom(): ?string
     {
-        return (string) $this->username;
+        return $this->nom;
     }
 
-    public function setUsername(string $username): static
+    public function setNom(?string $nom): static
     {
-        $this->username = $username;
+        $this->nom = $nom;
 
         return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->username;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getPrenom(): ?string
@@ -169,7 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setPrenom(?string $prenom): static
     {
         $this->prenom = $prenom;
 
@@ -181,21 +111,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAdresse(?string $adresse): static
     {
         $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getCin(): ?string
-    {
-        return $this->cin;
-    }
-
-    public function setCin(string $cin): static
-    {
-        $this->cin = $cin;
 
         return $this;
     }
@@ -205,9 +123,81 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): static
+    public function setTelephone(?string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(?string $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getVerifcode(): ?string
+    {
+        return $this->verifcode;
+    }
+
+    public function setVerifcode(?string $verifcode): static
+    {
+        $this->verifcode = $verifcode;
+
+        return $this;
+    }
+
+    public function getCin(): ?string
+    {
+        return $this->cin;
+    }
+
+    public function setCin(?string $cin): static
+    {
+        $this->cin = $cin;
+
+        return $this;
+    }
+
+    public function getMatFiscal(): ?string
+    {
+        return $this->matFiscal;
+    }
+
+    public function setMatFiscal(?string $matFiscal): static
+    {
+        $this->matFiscal = $matFiscal;
 
         return $this;
     }
@@ -217,69 +207,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->rib;
     }
 
-    public function setRib(string $rib): static
+    public function setRib(?string $rib): static
     {
         $this->rib = $rib;
 
         return $this;
     }
 
-    public function getMatFiscal(): ?string
-    {
-        return $this->MatFiscal;
-    }
-
-    public function setMatFiscal(string $MatFiscal): static
-    {
-        $this->MatFiscal = $MatFiscal;
-
-        return $this;
-    }
-
     public function getNbrePoint(): ?int
     {
-        return $this->NbrePoint;
+        return $this->nbrePoint;
     }
 
-    public function setNbrePoint(int $NbrePoint): static
+    public function setNbrePoint(?int $nbrePoint): static
     {
-        $this->NbrePoint = $NbrePoint;
-
-        return $this;
-    }
-
-    public function getImageName(): ?string
-    {
-        return $this->image_name;
-    }
-
-    public function setImageName(string $image_name): static
-    {
-        $this->image_name = $image_name;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function isIsVerified(): ?bool
-    {
-        return $this->is_verified;
-    }
-
-    public function setIsVerified(bool $is_verified): static
-    {
-        $this->is_verified = $is_verified;
+        $this->nbrePoint = $nbrePoint;
 
         return $this;
     }
@@ -289,35 +231,130 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function isVerified(): bool
+    public function getUserName(): ?string
     {
-        return $this->isVerified;
+        return $this->userName;
     }
 
-    public function getNom(): ?string
+    public function setUserName(?string $userName): static
     {
-        return $this->nom;
+        $this->userName = $userName;
+
+        return $this;
     }
 
-    public function setNom(string $nom): static
+    public function getImage(): ?string
     {
-        $this->nom = $nom;
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
 
 
 
-    /*public function __toString()
+    /**
+     * @return Collection<int, AppelOffre>
+     */
+    public function getAppelOffres(): Collection
     {
-        return $this->nom;
+        return $this->appelOffres;
     }
-   */
+
+    public function addAppelOffre(AppelOffre $appelOffre): static
+    {
+        if (!$this->appelOffres->contains($appelOffre)) {
+            $this->appelOffres->add($appelOffre);
+            $appelOffre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppelOffre(AppelOffre $appelOffre): static
+    {
+        if ($this->appelOffres->removeElement($appelOffre)) {
+            // set the owning side to null (unless already changed)
+            if ($appelOffre->getUser() === $this) {
+                $appelOffre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offre>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offre $offre): static
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): static
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getUser() === $this) {
+                $offre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stocks>
+     */
+    public function getStocks(): Collection
+    {
+        return $this->stocks;
+    }
+
+    public function addStock(Stocks $stock): static
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks->add($stock);
+            $stock->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(Stocks $stock): static
+    {
+        if ($this->stocks->removeElement($stock)) {
+            // set the owning side to null (unless already changed)
+            if ($stock->getUser() === $this) {
+                $stock->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
+    }
 }

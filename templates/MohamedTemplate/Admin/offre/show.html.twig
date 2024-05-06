@@ -1,0 +1,85 @@
+{% extends './BackEndTemplate.html.twig' %}
+
+{% block body %}
+    <br>
+    <br>
+    <div class="container2">
+        <div class="card">
+            <div class="text-center">
+            <br>
+            <h1>Details Offre</h1>
+            <br>
+            </div>
+            <div class="row text-center">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <td>{{ offre.user }}</td>
+                    </tr>
+                    <tr>
+                        <th>Appel Offre N:</th>
+                        <td>{{ offre.appelOffre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Montant</th>
+                        <td>{{ offre.montant }}</td>
+                    </tr>
+                    <tr>
+                        <th>DateSoumission</th>
+                        <td>{{ offre.dateSoumission ? offre.dateSoumission|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ offre.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Etat</th>
+                        <td>{{ offre.etat }}</td>
+                    </tr>
+                    <tr>
+                        <th>EtatPayment</th>
+                        <td>{{ offre.etatPayment }}</td>
+                    </tr>
+                    <tr>
+                        <th>DatePayment</th>
+                        <td>{{ offre.datePayment ? offre.datePayment|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <a href="#"
+                   onclick="confirmDeleting(event, '{{ path('app_offre_delete', {'id': offre.id}) }}', '{{ csrf_token('delete' ~ offre.id) }}')"
+                   class="btn btn-danger mr-2">Supprimer</a>
+                <a href="{{ path('app_offre_index') }}" class="btn btn-primary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <style>
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin: auto; /* pour centrer la carte horizontalement */
+        }
+
+        img {
+            display: block; /* pour empêcher l'image de s'étendre sur toute la largeur */
+            margin: auto; /* centrer l'image à l'intérieur de son conteneur */
+            margin-bottom: 20px; /* ajout de marge en bas de l'image */
+        }
+
+        .table {
+            margin-bottom: 20px; /* ajout de marge en bas du tableau */
+        }
+    </style>
+{% endblock %}
