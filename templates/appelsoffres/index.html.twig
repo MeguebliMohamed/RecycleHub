@@ -1,0 +1,49 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}Appelsoffres index{% endblock %}
+
+{% block body %}
+    <h1>Appelsoffres index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Prixinitial</th>
+                <th>Prixfinal</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>Etat</th>
+                <th>Etatpayment</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for appelsoffre in appelsoffres %}
+            <tr>
+                <td>{{ appelsoffre.id }}</td>
+                <td>{{ appelsoffre.titre }}</td>
+                <td>{{ appelsoffre.description }}</td>
+                <td>{{ appelsoffre.prixinitial }}</td>
+                <td>{{ appelsoffre.prixfinal }}</td>
+                <td>{{ appelsoffre.dateDebut ? appelsoffre.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ appelsoffre.dateFin ? appelsoffre.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ appelsoffre.etat }}</td>
+                <td>{{ appelsoffre.etatpayment }}</td>
+                <td>
+                    <a href="{{ path('app_appelsoffres_show', {'id': appelsoffre.id}) }}">show</a>
+                    <a href="{{ path('app_appelsoffres_edit', {'id': appelsoffre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_appelsoffres_new') }}">Create new</a>
+{% endblock %}

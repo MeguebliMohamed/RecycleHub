@@ -1,0 +1,70 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}Stock{% endblock %}
+
+{% block body %}
+    <h1>Stock</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ stock.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ stock.type }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ stock.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ stock.description }}</td>
+            </tr>
+            <tr>
+                <th>Prixunit</th>
+                <td>{{ stock.prixunit }}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ stock.quantite }}</td>
+            </tr>
+            <tr>
+                <th>Unite</th>
+                <td>{{ stock.unite }}</td>
+            </tr>
+            <tr>
+                <th>Dateajout</th>
+                <td>{{ stock.dateajout ? stock.dateajout|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ stock.etat }}</td>
+            </tr>
+            <tr>
+                <th>Imageurl</th>
+                <td>{{ stock.imageurl }}</td>
+            </tr>
+            <tr>
+                <th>Idappeloffre</th>
+                <td>{{ stock.idappeloffre }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ stock.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ stock.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_stock_index') }}">back to list</a>
+
+    <a href="{{ path('app_stock_edit', {'id': stock.id}) }}">edit</a>
+
+    {{ include('stock/_delete_form.html.twig') }}
+{% endblock %}

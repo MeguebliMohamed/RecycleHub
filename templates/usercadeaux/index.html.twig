@@ -1,0 +1,37 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}Usercadeaux index{% endblock %}
+
+{% block body %}
+    <h1>Usercadeaux index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>QuantiteAchetee</th>
+                <th>DateAchat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usercadeaux in usercadeauxes %}
+            <tr>
+                <td>{{ usercadeaux.id }}</td>
+                <td>{{ usercadeaux.quantiteAchetee }}</td>
+                <td>{{ usercadeaux.dateAchat ? usercadeaux.dateAchat|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_usercadeaux_show', {'id': usercadeaux.id}) }}">show</a>
+                    <a href="{{ path('app_usercadeaux_edit', {'id': usercadeaux.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_usercadeaux_new') }}">Create new</a>
+{% endblock %}

@@ -10,7 +10,7 @@
         {% endfor %}
         <div class="card mx-auto" style="max-width: 400px;">
             <div class="card-header">
-                <h5 class="card-title text-center">Réinitialiser votre mot de passe</h5>
+                <h5 class="card-title text-center">Reset your password</h5>
             </div>
             <div class="card-body">
                 {{ form_start(requestForm) }}
@@ -18,14 +18,14 @@
                     {{ form_label(requestForm.email, null, {'label_attr': {'class': 'control-label'}}) }}
                     {{ form_widget(requestForm.email, {'attr': {'class': 'form-control'}}) }}
                     <small class="form-text text-muted">
-                        Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+                        Enter your email address, and we will send you a link to reset your password.
                     </small>
                 </div>
                 <div class="form-group">
                     <div class="g-recaptcha" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Envoyer l'e-mail de réinitialisation du mot de passe</button>
+                <button type="submit" class="btn btn-primary btn-block">Send password reset email</button>
                 {{ form_end(requestForm) }}
             </div>
         </div>

@@ -74,7 +74,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 $qb->expr()->like('u.nom', ':searchTerm'),
                 $qb->expr()->like('u.prenom', ':searchTerm'),
                 $qb->expr()->like('u.adresse', ':searchTerm'),
-               // $qb->expr()->like('u.username', ':searchTerm')
+                $qb->expr()->like('u.username', ':searchTerm')
 
             ))
                 ->setParameter('searchTerm', '%'.$searchTerm.'%');
@@ -97,17 +97,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $qb = $this->createQueryBuilder('u');
 
         if ($searchTerm) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('u.nom', ':searchTerm'),
-                $qb->expr()->like('u.prenom', ':searchTerm'),
-                $qb->expr()->like('u.adresse', ':searchTerm')
-            ))
+            $qb->andWhere('u.email LIKE :searchTerm')
                 ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
-
         return $qb->getQuery();
     }
-
 
 
 
