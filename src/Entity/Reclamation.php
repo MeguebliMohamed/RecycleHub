@@ -5,32 +5,40 @@ namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+
+#[ORM\Table(name: "reclamation")]
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    private int $id;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $reclaimType = null;
+    #[ORM\Column(name: "reclaimType", type: "string", length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'ReclaimTpe date cannot be blank')]
+    private ?string $reclaimType;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column(name: "description", type: "text", length: 65535, nullable: true)]
+    #[Assert\NotBlank(message: 'Description date cannot be blank')]
+    private ?string $description;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $status = null;
+    #[ORM\Column(name: "status", type: "string", length: 50, nullable: true, options: ["default" => "en coure de traitement"])]
+    private ?string $status = "en cours de traitement";
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $submissionDate = null;
+    #[ORM\Column(name: "submissionDate", type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $submissionDate;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updateDate = null;
+    #[ORM\Column(name: "updateDate", type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $updateDate;
 
-    #[ORM\ManyToOne(inversedBy: 'reclamations')]
-    private ?User $user = null;
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "userId", referencedColumnName: "id")]
+    private ?User $user;
+
+    // Getters and setters
 
     public function getId(): ?int
     {
@@ -42,7 +50,7 @@ class Reclamation
         return $this->reclaimType;
     }
 
-    public function setReclaimType(?string $reclaimType): static
+    public function setReclaimType(?string $reclaimType): self
     {
         $this->reclaimType = $reclaimType;
 
@@ -54,7 +62,7 @@ class Reclamation
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

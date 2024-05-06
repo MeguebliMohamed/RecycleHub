@@ -6,6 +6,14 @@
 parameters:
 
 services:
+    App\Service\GeneratDevisService:
+        autowire: true
+    App\Controller\mohamedController\DevisController:
+        autowire: true
+    App\Service\MajBdService:
+        arguments:
+            $appelOffreRepository: '@App\Repository\AppelOffreRepository'
+            $offreRepository: '@App\Repository\OffreRepository'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

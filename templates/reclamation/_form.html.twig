@@ -1,0 +1,88 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Reclamation Form</h4>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfXgtEpAAAAABE2zc84p7kQwwMUosxs_a1uxIId"></script>
+
+    {{ form_start(form, {'attr': {'class': 'row' , 'novalidate': 'novalidate'}}) }}
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Reclamation Details</h5>
+                <small class="text-muted float-end">Please fill in the form</small>
+            </div>
+            <div class="card-body">
+
+                {# Render user fields - make sure these fields are present and correctly configured in your UserType form #}
+                <div class="mb-3">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-control" value="{{ reclamation.user.nom }}" readonly disabled />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Prenom</label>
+                    <input type="text" class="form-control" value="{{ reclamation.user.prenom }}" readonly disabled />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" value="{{ reclamation.user.email }}" readonly disabled />
+                </div>
+
+                {# Render reclaimType field - make sure it is configured correctly in your form type #}
+                {{ form_row(form.reclaimType, {'attr': {'class': 'form-select color-dropdown'}}) }}
+                {% if form_errors(form.reclaimType)|length %}
+                    <div class="invalid-feedback form-error-message">
+                        {{ form_errors(form.reclaimType) }}
+                    </div>
+                {% endif %}
+                {# Render description field #}
+                {{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.description)|length %}
+                    <div class="invalid-feedback form-error-message">
+                        {{ form_errors(form.description) }}
+                    </div>
+                {% endif %}
+                {# Render submissionDate field - manually because we want to set the value to 'now' and make it readonly #}
+                <div class="mb-3">
+                    <label for="form_submissionDate" class="col-md-2 col-form-label">Datetime</label>
+                    <div class="col-md-10">
+                        <input
+                                class="form-control"
+                                type="datetime-local"
+                                id="{{ form.submissionDate.vars.id }}"
+                                name="{{ form.submissionDate.vars.full_name }}"
+                                value="{{ 'now'|date('Y-m-d\\TH:i:s') }}"
+                                readonly
+                                disabled
+                        />
+                    </div>
+                </div>
+
+
+                {% do form.reclaimType.setRendered %}
+                {% do form.submissionDate.setRendered %}
+                {% do form.updateDate.setRendered %}
+                {% do form.status.setRendered %}
+                {% do form.user.setRendered %}
+                {{ form_widget(form) }}
+
+
+
+                <script>
+                    function onClick(e) {
+                        e.preventDefault();
+                        grecaptcha.enterprise.ready(async () => {
+                            const token = await grecaptcha.enterprise.execute('6LfXgtEpAAAAABE2zc84p7kQwwMUosxs_a1uxIId', {action: 'LOGIN'});
+                        });
+                    }
+                </script>
+
+
+
+
+
+                <button  class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+</div>
+

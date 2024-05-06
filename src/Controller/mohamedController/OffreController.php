@@ -32,9 +32,13 @@ class OffreController extends AbstractController
         $searchTerm = $request->query->get('search');
 
         // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-
-        switch ($role) {
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        switch ($roles) {
             case 'ROLE_ADMIN':
                 // Logique d'affichage pour l'administrateur
                 $offre = $offreRepository->findBySearchTerm($searchTerm,null,null);
@@ -68,7 +72,7 @@ class OffreController extends AbstractController
             }
         }
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_ADMIN' => 'MohamedTemplate/Admin/offre/index.html.twig',
             'ROLE_SOCIETE' => 'MohamedTemplate/Societe/offre/index.html.twig',
         };
@@ -155,26 +159,6 @@ class OffreController extends AbstractController
         }
 
         return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
-    }
-    #[Route('/checkout', name: 'checkout', methods: ['POST'])]
-    public function checkout(Request $request, Offre $offre, EntityManagerInterface $entityManager): Response
-    {
-        $stripe = new \Stripe\StripeClient('sk_test_51OoTIhIZwMThMQrbvciH7ytahyGar4F8JmIkuuzTFQkxrVfhzO1hWwmyW4ZQErZ72BAUuwxNmIIybQWwCn6xNnzh00sy9kHamj');
-        $checkout_session = $stripe->checkout->sessions->create([
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => [
-                        'name' => 'T-shirt',
-                    ],
-                    'unit_amount' => 2000,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => 'http://localhost:4242/success',
-            'cancel_url' => 'http://localhost:4242/cancel',
-        ]);
     }
 
 }

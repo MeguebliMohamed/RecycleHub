@@ -51,3 +51,18 @@ index:
    #path: /verify-email
    #controller: App\Controller\VerificationController::verifyEmail
    #methods: ['GET']
+generate_facture:
+   path: '/facture/generate'
+   controller: 'App\Controller\mohamedController\DevisController::generateFactureAction'
+
+generate_devis:
+   path: '/devis/generate'
+   controller: 'App\Controller\mohamedController\DevisController::generateDevisAction'
+
+generate_invoice:
+   path: '/generate-invoice/{id}'
+   controller: 'App\Controller\mohamedController\PdfcaisseController::generateInvoice'
+PDF_reclamation:
+   path: /reclamation/pdf
+   controller: App\Controller\ReclamationController::generatePdf
+   methods: ['GET']

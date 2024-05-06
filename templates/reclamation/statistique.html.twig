@@ -1,0 +1,60 @@
+{% extends 'BackEndTemplate.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Reclamations /</span> Display</h4>
+            <div class="container">
+                <h1>Statistiques des Reclamations Traitées par Type</h1>
+                <div style="max-width: 700px; max-height: 700px;"> <!-- Container with fixed size -->
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var data = {{ statistiques|json_encode|raw }};
+
+        var labels = [...new Set(data.map(stat => stat.reclaimType))];
+
+        var traiteData = labels.map(label => {
+            var item = data.find(stat => stat.reclaimType === label && stat.status === 'Traiter');
+            return item ? item.count : 0;
+        });
+        var nonTraiteData = labels.map(label => {
+            var item = data.find(stat => stat.reclaimType === label && stat.status !== 'Traiter');
+            return item ? item.count : 0;
+        });
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Traiter',
+                        data: traiteData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Non Traiter',
+                        data: nonTraiteData,
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+        });
+    </script>
+
+{% endblock %}

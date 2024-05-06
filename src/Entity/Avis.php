@@ -4,23 +4,30 @@ namespace App\Entity;
 
 use App\Repository\AvisRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Table(name: "avis")]
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    private int $id;
 
-    #[ORM\Column]
-    private ?int $note = null;
+    #[ORM\Column(name: "note", type: "integer", nullable: false)]
+    #[Assert\NotBlank(message: 'Note cannot be blank')]
+    private int $note;
 
-    #[ORM\Column(length: 255)]
-    private ?string $avi = null;
+    #[ORM\Column(name: "avi", type: "string", length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'avi cannot be blank')]
+    private string $avi;
 
-    #[ORM\ManyToOne(inversedBy: 'avis')]
-    private ?User $iduser = null;
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "iduser", referencedColumnName: "id")]
+    private User $iduser;
+
+    // Getters and setters
 
     public function getId(): ?int
     {

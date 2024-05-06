@@ -45,4 +45,20 @@ class ReclamationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByUserId($userId)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+    public function countByReclaimTypeAndStatus()
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.reclaimType, r.status, COUNT(r.id) AS count')
+            ->groupBy('r.reclaimType, r.status')
+            ->getQuery()
+            ->getResult();
+    }
 }
