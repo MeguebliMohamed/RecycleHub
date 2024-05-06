@@ -1,7 +1,7 @@
 {% extends 'FrontTemplate.html.twig' %}
 
 {% block title %}Register{% endblock %}
-{% block footer %}{% endblock %}
+
 {% block body %}
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     {% for flash_error in app.flashes('verify_email_error') %}
@@ -9,54 +9,31 @@
     {% endfor %}
 
 {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
-    <div class="container mt-4">
-        <div class="card mx-auto" style="max-width: 600px;">
-            <div class="card-body">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                    <h1 class="text-center mb-4">S'inscrire</h1>
-
-
-
-
-                        {{ form_row(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.adresse, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.cin, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.telephone, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
-{#
-                        {{ form_row(registrationForm.MatFiscal, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_row(registrationForm.rib, {'attr': {'class': 'form-control'}}) }}
-#}
-                        {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-
-
-                        <div class="form-group">
-                            {{ form_label(registrationForm.roles) }}
-                            {{ form_widget(registrationForm.roles, {
-                                'attr': {'class': 'form-control'},
-                                'placeholder': 'Sélectionner un rôle'
-                            }) }}
-                            {{ form_errors(registrationForm.roles) }}
-                        </div>
-
-
-
-
-                   {#   {{ form_row(registrationForm.roles, {'attr': {'class': 'form-control'}}) }} #}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Crée un Nouveau Compte</h1>
 
     {{ form_errors(registrationForm) }}
 
-
-
-
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.nom) }}
+    {{ form_row(registrationForm.prenom) }}
+    {{ form_row(registrationForm.adresse) }}
+    {{ form_row(registrationForm.telephone) }}
+    {{ form_row(registrationForm.cin) }}
+    {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.username) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
 
         {{ form_row(registrationForm.agreeTerms) }}
     <div class="g-recaptcha" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
 
-      {#   <button type="submit" class="btn">Register</button> #}
+        <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
 
 

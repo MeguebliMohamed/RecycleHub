@@ -8,12 +8,10 @@ use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
+//use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this username')]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,33 +20,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
-    private ?string $username ;
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    private ?string $username = null;
 
     #[ORM\Column]
-    private array $roles;
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-   // #[Assert\NotBlank(message: "Le champs password est obligatoire")]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le prenom est obligatoire")]
+   // #[Assert\NotBlank(message: "Le prenom est obligatoire")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: "Le champs adresse est obligatoire")]
+   // #[Assert\NotBlank(message: "Le champs adresse est obligatoire")]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 8)]
-   #[Assert\NotBlank(message: "Le champs cin est obligatoire")]
+    //#[Assert\NotBlank(message: "Le champs cin est obligatoire")]
     private ?string $cin = null;
 
     #[ORM\Column(length: 12)]
-    #[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
     private ?string $telephone = null;
 
     #[ORM\Column(length: 20)]
@@ -70,14 +68,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     //private ?boolean $is_verified = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le champs email est obligatoire")]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
     private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
     #[ORM\Column(length: 20)]
-    #[Assert\NotBlank(message: "Le champs nom est obligatoire")]
+    //#[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
     private ?string $nom = null;
 
     public function getId(): ?int

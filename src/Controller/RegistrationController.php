@@ -33,17 +33,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
-            //zedetha taw
-            //$roles = [$form->get('roles')->getData()];
-            //$user->setRoles($roles);
-
-
-
-
-
-
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -63,7 +52,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('/');
         }
 
         return $this->render('registration/register.html.twig', [
