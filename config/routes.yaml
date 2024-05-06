@@ -1,41 +1,53 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+   path: /
+   controller: App\Controller\HomeController::index
+
+#register:
+ #  path: /register
+  # controller: App\Controller\RegistrationController::register
 
 
-app_user_delete:
-  path: '/user/{id}/delete'
-  controller: 'App\Controller\UserController::delete'
-  methods: [POST, DELETE]
+#app_register:
+ #  path: /register
+  # controller: App\Controller\RegistrationController::register
 
 
+#password:
+   #path: /reset-password
+  # controller: App\Controller\ResetPasswordController::request
 
-user:
-  path: /user
-  controller: App\Controller\UserController::index
-
-
-
-
-edit:
-  path: /edit/{id}
-  controller: App\Controller\ProfileController::editUser
+#app_verify_email:
+ #  path: '/verify/email'
+  # controller: 'App\Controller\RegistrationController::verifyUserEmail'
 
 
+#app_login:
+ #  path: /login
+  # controller: App\Controller\SecurityController::login
+
+#app_logout:
+ #  path: /logout
+  # controller: App\Controller\SecurityController::logout
 
 
-home:
-  path: /
-  controller: App\Controller\HomeController::index
+#home:
+ # path: /home
+  #controller: App/Controller/HomeController::index
 
-#app_user_edit:
- # path: '/user/edituser'
-  #controller: 'App\Controller\UserController::edituser'
-  #methods: [POST, EDIT]
 
-logout:
-  path: '/logout'
+#app_reset_password_request:
+  # path: /reset-password
+ #  controller: App\Controller\ResetPasswordController::request
 
-forget:
-  path: /
-  controller: App\Controller\SecurityController::forgetPassword
+#app_reset_password:
+  # path: /reset-password/{token}
+ #  controller: App\Controller\ResetPasswordController::reset
+
+#app_home:
+ #  path: /
+ #  controller: App\Controller\HomeController::index
+
+#app_check_email:
+   #path: /verify-email
+   #controller: App\Controller\VerificationController::verifyEmail
+   #methods: ['GET']

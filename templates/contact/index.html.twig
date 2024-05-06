@@ -1,0 +1,34 @@
+{% extends 'FrontTemplate.html.twig' %}
+
+{% block title %}Envoyer un Message pour l'administrateur!{% endblock %}
+
+{% block body %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Envoi de Contact</h1>
+                        <div>
+                            <form method="post">
+                                {{ form_start(form) }}
+
+                                {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_row(form.subject, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_row(form.content, {'attr': {'class': 'form-control'}}) }}
+
+                                <div class="g-recaptcha mt-3" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
+                                {{ form_row(form.Envoyer, {'attr': {'class': 'btn btn-primary'}}) }}
+
+                                {{ form_end(form) }}
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
