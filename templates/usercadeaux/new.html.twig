@@ -1,0 +1,11 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}New Usercadeaux{% endblock %}
+
+{% block body %}
+    <h1>Create new Usercadeaux</h1>
+
+    {{ include('usercadeaux/_form.html.twig') }}
+
+    <a href="{{ path('app_usercadeaux_index') }}">back to list</a>
+{% endblock %}

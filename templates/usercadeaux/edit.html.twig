@@ -1,0 +1,13 @@
+{% extends './FrontTemplate.html.twig' %}
+
+{% block title %}Edit Usercadeaux{% endblock %}
+
+{% block body %}
+    <h1>Edit Usercadeaux</h1>
+
+    {{ include('usercadeaux/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_usercadeaux_index') }}">back to list</a>
+
+    {{ include('usercadeaux/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends '/FrontTemplate.html.twig' %}
+
+{% block title %}Payment Success!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Thank You for Your Order!</h1>
+                        <p class="card-text text-center">
+                            Une erreur s'est produite lors du traitement de votre paiement. Veuillez réessayer plus tard ou nous contacter à l'adresse <a href="mailto:contact@recycleHub.tn">contact@recycleHub.tn</a> pour obtenir de l'aide.
+                        </p>
+                        <div class="text-center">
+                            <a href="{{ path('home') }}" class="btn btn-primary mt-3">Home </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
