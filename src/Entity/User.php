@@ -80,6 +80,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Le champs nom est obligatoire")]
     private ?string $nom = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AppelOffre::class)]
+    private Collection $appelOffres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offre::class)]
+    private Collection $offres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Stocks::class)]
+    private Collection $stocks;
+
+    public function __construct()
+    {
+        $this->appelOffres = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -315,9 +330,98 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    /*public function __toString()
+
+    /**
+     * @return Collection<int, AppelOffre>
+     */
+    public function getAppelOffres(): Collection
     {
-        return $this->nom;
+        return $this->appelOffres;
     }
-   */
+
+    public function addAppelOffre(AppelOffre $appelOffre): static
+    {
+        if (!$this->appelOffres->contains($appelOffre)) {
+            $this->appelOffres->add($appelOffre);
+            $appelOffre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppelOffre(AppelOffre $appelOffre): static
+    {
+        if ($this->appelOffres->removeElement($appelOffre)) {
+            // set the owning side to null (unless already changed)
+            if ($appelOffre->getUser() === $this) {
+                $appelOffre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offre>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offre $offre): static
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): static
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getUser() === $this) {
+                $offre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stocks>
+     */
+    public function getStocks(): Collection
+    {
+        return $this->stocks;
+    }
+
+    public function addStock(Stocks $stock): static
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks->add($stock);
+            $stock->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(Stocks $stock): static
+    {
+        if ($this->stocks->removeElement($stock)) {
+            // set the owning side to null (unless already changed)
+            if ($stock->getUser() === $this) {
+                $stock->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom; // ou n'importe quelle autre propriété de l'utilisateur que vous souhaitez afficher
+    }
 }
