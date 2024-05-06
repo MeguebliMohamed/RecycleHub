@@ -1,0 +1,41 @@
+
+{% block stylesheets %}
+    <style>
+        /* Password Reset Email Sent page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <p>
+            please  check your email to comfimred your registration
+            <a href="{{ path('app_register') }}">try again</a>
+        </p>
+    </div>
+{% endblock %}
