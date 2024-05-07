@@ -26,7 +26,7 @@ class AvisController extends AbstractController
     #[Route('/front', name: 'app_avis_indexFront', methods: ['GET'])]
     public function indexFront(Request $request, AvisRepository $avisRepository, PaginatorInterface $paginator): Response
     {
-        $userId = 1;
+        $userId = $this->getUser()->getId();
 
         // Récupérer les avis de l'utilisateur
         $avis = $avisRepository->findByUserId($userId);
@@ -46,7 +46,7 @@ class AvisController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $avi = new Avis();
-        $user = $userRepository->find(1);
+        $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }

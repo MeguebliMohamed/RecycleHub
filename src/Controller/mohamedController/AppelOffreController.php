@@ -25,19 +25,23 @@ use function PHPUnit\Framework\equalTo;
 #[Route('/appeloffre')]
 class AppelOffreController extends AbstractController
 {
-    private static ?int $idUser = 3; // Déclaration de la variable statique $id
+
 
     #[Route('/', name: 'app_appeloffre_index', methods: ['GET', 'POST'])]
     public function index(UserRepository $userRepository, AppelOffreRepository $appelOffreRepository, Request $request,
                           PaginatorInterface $paginator, Security $security): Response
-    {   $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
+    {
+
         $searchTerm = $request->query->get('search');
-
+        $user = $this->getUser();
         // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-
-        switch ($role) {
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        switch ($roles) {
             case 'ROLE_ADMIN':
                 // Logique d'affichage pour l'administrateur
                 $apoffre = $appelOffreRepository->findBySearchTerm($searchTerm);
@@ -63,7 +67,7 @@ class AppelOffreController extends AbstractController
         );
 
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_ADMIN' => 'MohamedTemplate/Admin/appel_offre/index.html.twig',
             'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/index.html.twig',
             'ROLE_SOCIETE' => 'MohamedTemplate/Societe/appel_offre/index.html.twig',
@@ -82,7 +86,7 @@ class AppelOffreController extends AbstractController
                 $maxPrice = $prixinitial;
             }
         }
-        if ($role=='ROLE_COLLECTEUR'){$pagination=$apoffre;}
+        if ($roles=='ROLE_COLLECTEUR'){$pagination=$apoffre;}
         // Afficher les résultats, les transmettre à un template, etc.
         return $this->render($template, [
             'minPrice' => $minPrice,
@@ -95,12 +99,15 @@ class AppelOffreController extends AbstractController
     #[Route('/new', name: 'app_appeloffre_new', methods: ['GET', 'POST'])]
     public function new(UserRepository $userRepository,Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
-
+        $user = $this->getUser();
         // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-        switch ($role) {
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        switch ($roles) {
             case 'ROLE_COLLECTEUR':
                 // Logique d'affichage pour le collecteur
                 break;
@@ -127,7 +134,7 @@ class AppelOffreController extends AbstractController
         }
 
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/new.html.twig',
         };
 
@@ -145,14 +152,16 @@ class AppelOffreController extends AbstractController
     {
 
 
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
-
+        $user = $this->getUser();
         // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_ADMIN' => 'MohamedTemplate/Admin/appel_offre/show.html.twig',
             'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/show.html.twig',
             'ROLE_SOCIETE' => 'MohamedTemplate/Societe/appel_offre/show.html.twig',
@@ -166,12 +175,15 @@ class AppelOffreController extends AbstractController
     #[Route('/{id}/edit', name: 'app_appeloffre_edit', methods: ['GET', 'POST'])]
     public function edit(UserRepository $userRepository,Request $request, AppelOffre $appelOffre, EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
-
+        $user = $this->getUser();
         // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-        switch ($role) {
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        switch ($roles) {
             case 'ROLE_COLLECTEUR':
                 // Logique d'affichage pour le collecteur
                 break;
@@ -205,7 +217,7 @@ class AppelOffreController extends AbstractController
         }
 
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/appel_offre/edit.html.twig',
         };
 

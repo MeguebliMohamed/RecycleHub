@@ -20,15 +20,13 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/offre')]
 class OffreController extends AbstractController
 {
-    private static ?int $idUser = 1; // Déclaration de la variable statique $id
+
     #[Route('/', name: 'app_offre_index', methods: ['GET'])]
     public function index(UserRepository $userRepository,OffreRepository $offreRepository,Request $request,
                           PaginatorInterface $paginator, Security $security): Response
     {
 
-
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
+        $user = $this->getUser();
         $searchTerm = $request->query->get('search');
 
         // Récupérer le rôle de l'utilisateur connecté
@@ -89,9 +87,7 @@ class OffreController extends AbstractController
     #[Route('/{id}/new', name: 'app_offre_new', methods: ['GET', 'POST'])]
     public function new(UserRepository $userRepository,AppelOffre $appelOffre,Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
-
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
+        $user = $this->getUser();
         $offre = new Offre();
         $offre->setUser($user);
         $form = $this->createForm(AjouterOffreType::class, $offre);
@@ -116,14 +112,21 @@ class OffreController extends AbstractController
 
     #[Route('/{id}', name: 'app_offre_show', methods: ['GET'])]
     public function show(UserRepository $userRepository,Offre $offre): Response
-    {  $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
-
-        // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-
+    {
+        $user = $this->getUser();
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_ADMIN' => 'MohamedTemplate/Admin/offre/show.html.twig',
             'ROLE_SOCIETE' => 'MohamedTemplate/Societe/offre/show.html.twig',
         };

@@ -18,20 +18,23 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/stocks')]
 class StocksController extends AbstractController
 {
-    private static ?int $idUser = 1; // Déclaration de la variable statique $id
 
     #[Route('/', name: 'app_stocks_index', methods: ['GET'])]
     public function index(UserRepository $userRepository,StocksRepository $stocksRepository,Request $request,
                           PaginatorInterface $paginator, Security $security): Response
     {
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
+
         $searchTerm = $request->query->get('search');
 
+        $user = $this->getUser();
         // Récupérer le rôle de l'utilisateur connecté
-        $role = $user->getRole(); // Supposons que l'utilisateur ait un seul rôle
-
-        switch ($role) {
+        $role = $user->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        switch ($roles) {
             case 'ROLE_ADMIN':
                 // Logique d'affichage pour l'administrateur
                 $offre = $stocksRepository->findBySearchTerm($searchTerm,null,null);
@@ -65,7 +68,7 @@ class StocksController extends AbstractController
             }
         }
         // Sélectionner le template approprié en fonction du rôle
-        $template = match ($role) {
+        $template = match ($roles) {
             'ROLE_ADMIN' => 'MohamedTemplate/Admin/stocks/index.html.twig',
             'ROLE_COLLECTEUR' => 'MohamedTemplate/Collecteur/stocks/index.html.twig',
         };
@@ -82,8 +85,8 @@ class StocksController extends AbstractController
     public function new(UserRepository $userRepository,Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $stock = new Stocks();
-        $user = $userRepository->findOneBy(['id' => self::$idUser]);
-        //$user = $security->getUser();
+
+        $user = $this->getUser();
         $stock->setUser($user);
         $form = $this->createForm(AjouterStockType::class, $stock);
         $form->handleRequest($request);
