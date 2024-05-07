@@ -35,11 +35,22 @@ class AvisController extends AbstractController
         $pagination = $paginator->paginate(
             $avis, // Résultats à paginer
             $request->query->getInt('page', 1), // Numéro de page
-            3 // Nombre d'éléments par page
+            5 // Nombre d'éléments par page
         );
 
-        return $this->render('avis/indexFront.html.twig', [
-            'pagination' => $pagination
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'avis/indexFront.html.twig',
+            'ROLE_SOCIETE' => 'avis/indexFrontSociete.html.twig',
+        };
+
+        return $this->render($template, [
+            'pagination' => $pagination,
         ]);
     }
     #[Route('/new', name: 'app_avis_new', methods: ['GET', 'POST'])]
@@ -62,7 +73,18 @@ class AvisController extends AbstractController
             return $this->redirectToRoute('app_avis_indexFront', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('avis/new.html.twig', [
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'avis/new.html.twig',
+            'ROLE_SOCIETE' => 'avis/newSociete.html.twig',
+        };
+
+        return $this->renderForm($template, [
             'avi' => $avi,
             'form' => $form,
         ]);
@@ -71,7 +93,18 @@ class AvisController extends AbstractController
     #[Route('/{id}', name: 'app_avis_show', methods: ['GET'])]
     public function show(Avis $avi): Response
     {
-        return $this->render('avis/show.html.twig', [
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'avis/show.html.twig',
+            'ROLE_SOCIETE' => 'avis/showSociete.html.twig',
+        };
+
+        return $this->render($template, [
             'avi' => $avi,
         ]);
     }
@@ -87,8 +120,18 @@ class AvisController extends AbstractController
 
             return $this->redirectToRoute('app_avis_indexFront', [], Response::HTTP_SEE_OTHER);
         }
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'avis/edit.html.twig',
+            'ROLE_SOCIETE' => 'avis/editSociete.html.twig',
+        };
 
-        return $this->renderForm('avis/edit.html.twig', [
+        return $this->renderForm($template, [
             'avi' => $avi,
             'form' => $form,
         ]);

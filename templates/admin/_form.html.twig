@@ -11,13 +11,13 @@
     {{ form_row(form.telephone, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
-  {{ form_row(form.rib, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(form.MatFiscal, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.roles, {'attr': {'class': 'form-control'}}) }}
 <div class="g-recaptcha" data-sitekey="6LfxDsEpAAAAAHLhK6H22Gj0zvfXCT2EgcPbpG7U"></div>
 
 <div class="text-center mt-3">
     <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
     <button type="button" class="btn btn-secondary" onclick="window.location.href=window.location.href;">Annuler</button>
+    <a href="{{ path('app_admin_index') }}" class="btn btn-primary">Retour à la liste</a>
 </div>
 
 {{ form_end(form) }}

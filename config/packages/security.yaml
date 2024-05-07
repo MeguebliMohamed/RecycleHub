@@ -20,7 +20,7 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
 
             logout:
-                path: app_logout
+                path: home
                 # where to redirect after logout
                 # target: app_any_route
 
@@ -39,9 +39,21 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin, roles: ROLE_USER }
          - { path: ^/profile, roles: ROLE_USER }
-
+         - { path: ^/appeloffre, roles: ROLE_USER }
+         - { path: ^/back, roles: ROLE_USER }
+         - { path: ^/offre, roles: ROLE_USER }
+         - { path: ^/payment, roles: ROLE_USER }
+         - { path: ^/stocks, roles: ROLE_USER }
+         - { path: ^/avis, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/reclamation, roles: ROLE_USER }
+         - { path: ^/reset-password, roles: ROLE_USER }
+         - { path: ^/societe, roles: ROLE_SOCIETE }
+         - { path: ^/collecteur, roles: ROLE_COLLECTEUR }
+         - { path: ^/reclamation/statistiques, roles: ROLE_ADMIN}
 when@test:
     security:
         password_hashers:

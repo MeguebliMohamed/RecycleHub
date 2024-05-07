@@ -47,7 +47,7 @@ class RegistrationFormType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Collecteur' => 'ROLE_COLLECTEUR',
-                    'Sociéter' => 'ROLE_SOCIETER',
+                    'Sociéter' => 'ROLE_SOCIETE',
                 ],
                 'multiple' => true,
                 'expanded' => true,

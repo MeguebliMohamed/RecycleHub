@@ -37,7 +37,7 @@ class StocksController extends AbstractController
         switch ($roles) {
             case 'ROLE_ADMIN':
                 // Logique d'affichage pour l'administrateur
-                $offre = $stocksRepository->findBySearchTerm($searchTerm,null,null);
+                $stock = $stocksRepository->findBySearchTerm($searchTerm,null,null);
                 break;
 
             case 'ROLE_COLLECTEUR':

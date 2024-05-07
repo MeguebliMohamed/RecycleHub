@@ -61,11 +61,21 @@ class ReclamationController extends AbstractController
     #[Route('/front', name: 'app_reclamation_indexFront', methods: ['GET'])]
     public function indexFront(ReclamationRepository $reclamationRepository): Response
     {
-        $userId = 1;
+        $userId = $this->getUser()->getId();
         $reclamations = $reclamationRepository->findByUserId($userId);
-
-        return $this->render('reclamation/indexFront.html.twig', [
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'reclamation/indexFront.html.twig',
+            'ROLE_SOCIETE' => 'reclamation/indexFrontSociete.html.twig',
+        };
+        return $this->render($template, [
             'reclamations' => $reclamations,
+            'user'=> $this->getUser(),
         ]);
     }
     #[Route('/statistiques', name: 'app_statistiques')]
@@ -81,7 +91,7 @@ class ReclamationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $reclamation = new Reclamation();
-        $user = $userRepository->find(1);
+        $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
@@ -98,8 +108,17 @@ class ReclamationController extends AbstractController
 
             return $this->redirectToRoute('app_reclamation_indexFront', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('reclamation/new.html.twig', [
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'reclamation/new.html.twig',
+            'ROLE_SOCIETE' => 'reclamation/newSociete.html.twig',
+        };
+        return $this->renderForm($template, [
             'reclamation' => $reclamation,
             'form' => $form,
         ]);
@@ -127,7 +146,7 @@ class ReclamationController extends AbstractController
         $entityManager->flush();
         try {
             $email = (new TemplatedEmail())
-                ->from('mohamedaziz.benabda@esprit.tn')
+                ->from('atef.mannai@esprit.tn')
                 ->to($reclamation->getUser()->getEmail())
                 ->subject('Votre Reclamation a été traitée')
                 ->htmlTemplate('emails/reclamation_traitement.html.twig')
@@ -155,7 +174,17 @@ class ReclamationController extends AbstractController
     #[Route('/{id}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
     {
-        return $this->render('reclamation/show.html.twig', [
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'reclamation/show.html.twig',
+            'ROLE_SOCIETE' => 'reclamation/showSociete.html.twig',
+        };
+        return $this->render($template, [
             'reclamation' => $reclamation,
         ]);
     }
@@ -165,7 +194,7 @@ class ReclamationController extends AbstractController
     {
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
-        $user = $userRepository->find(1);
+        $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
@@ -179,7 +208,16 @@ class ReclamationController extends AbstractController
 
             return $this->redirectToRoute('app_reclamation_indexFront', [], Response::HTTP_SEE_OTHER);
         }
-
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'reclamation/edit.html.twig',
+            'ROLE_SOCIETE' => 'reclamation/editSociete.html.twig',
+        };
         return $this->renderForm('reclamation/edit.html.twig', [
             'reclamation' => $reclamation,
             'form' => $form,

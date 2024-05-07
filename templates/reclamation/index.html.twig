@@ -62,7 +62,9 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Reclamations /</span> Display</h4>
-
+            <div class="filter-buttons mb-3">
+                <a href="{{ path('app_reclamation_generate_pdf') }}" class="btn btn-primary">Generate PDF</a>
+            </div>
 <div class="card">
     <div class="table-responsive text-nowrap">
         <div class="filter-buttons mb-3">
@@ -171,8 +173,6 @@
     </script>
 
 
-    <div class="filter-buttons mb-3">
-        <a href="{{ path('app_reclamation_generate_pdf') }}" class="btn btn-primary">Generate PDF</a>
-    </div>
+
 
 {% endblock %}

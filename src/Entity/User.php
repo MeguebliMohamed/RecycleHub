@@ -37,48 +37,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    // #[Assert\NotBlank(message: "Le champs password est obligatoire")]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank(message: "Le prenom est obligatoire")]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     #[Assert\NotBlank(message: "Le champs adresse est obligatoire")]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 8)]
+    #[ORM\Column(length: 8, nullable: true)]
    #[Assert\NotBlank(message: "Le champs cin est obligatoire")]
     private ?string $cin = null;
 
-    #[ORM\Column(length: 12)]
+    #[ORM\Column(length: 12, nullable: true)]
     #[Assert\NotBlank(message: "Le champs telephone est obligatoire")]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $rib = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $MatFiscal = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $NbrePoint = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_name = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
    // #[ORM\Column]
     //private ?boolean $is_verified = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank(message: "Le champs email est obligatoire")]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $isVerified = false;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     #[Assert\NotBlank(message: "Le champs nom est obligatoire")]
     private ?string $nom = null;
 

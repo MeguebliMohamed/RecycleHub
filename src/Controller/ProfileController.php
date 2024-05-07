@@ -40,8 +40,17 @@ class ProfileController extends AbstractController
 
             return $this->redirectToRoute('app_profile_show', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('profile/edit.html.twig', [
+        $role = $this->getUser()->getRoles(); // Supposons que l'utilisateur ait un seul rôle
+        if (!empty($role)) {
+            $roles = $role[0]; // Récupérer le premier rôle de l'utilisateur
+        } else {
+            throw new \Exception("L'utilisateur n'a aucun rôle.");
+        }
+        $template = match ($roles) {
+            'ROLE_COLLECTEUR' => 'profile/edit.html.twig',
+            'ROLE_SOCIETE' => 'profile/editSociete.html.twig',
+        };
+        return $this->renderForm($template, [
             'user' => $user,
             'form' => $form,
         ]);

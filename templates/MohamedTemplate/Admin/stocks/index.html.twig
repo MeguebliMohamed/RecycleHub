@@ -1,4 +1,4 @@
-{% extends './FrontTemplate.html.twig' %}
+{% extends './BackEndTemplate.html.twig' %}
 
 {% block title %}Table de stocks{% endblock %}
 {% block css %}
@@ -56,10 +56,6 @@
                                     <td>{{ stock.quantite }}</td>
                                     <td>{{ stock.unite }}</td>
                                     <td>
-                                        <a href="{{ path('app_stocks_edit', {'id': stock.id}) }}"
-                                           class="button-with-image" title="Modifier">
-                                            <img src="/mohamed_Css/img/edit.png" style="width: 40px; height: 35px;">
-                                        </a>
                                         <a href="{{ path('app_stocks_show', {'id': stock.id}) }}"
                                            class="button-with-image" title="Info">
                                             <img src="/mohamed_Css/img/information.png"
@@ -84,11 +80,7 @@
                 </div>
             </div>
             <br>
-            <div class="form-group text-center">
-                <form action="{{ path('app_stocks_new') }}" method="GET">
-                    <button type="submit" class="btn btn-success btn-custom">Create new</button>
-                </form>
-            </div>
+
         </div>
     </div>
 
