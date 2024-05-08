@@ -69,7 +69,7 @@ class Stocks
 
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?AppelOffre $appelOffre = null;
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]

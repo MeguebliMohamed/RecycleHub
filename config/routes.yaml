@@ -1,6 +1,3 @@
-index:
-    path: /
-    controller: App\Controller\mohamedController\HomeControle::index
 generate_facture:
    path: '/facture/generate'
    controller: 'App\Controller\mohamedController\DevisController::generateFactureAction'

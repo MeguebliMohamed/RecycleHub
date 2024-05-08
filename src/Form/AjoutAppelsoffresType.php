@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,7 @@ class AjoutAppelsoffresType extends AbstractType
             ->add('titre')
             ->add('description')
             ->add('prixInitial')
-            ->add('dateFin', DateType::class, [
+            ->add('dateFin', DateTimeType::class, [
                 // renders it as a single text box
                 'widget' => 'single_text',
             ])

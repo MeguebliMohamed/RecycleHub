@@ -118,14 +118,20 @@ class AppelOffreController extends AbstractController
             'SELECT s FROM App\Entity\Stocks s WHERE s.appelOffre IS NULL OR s.appelOffre = 0'
         )->getResult();
         $appelOffre = new AppelOffre();
-        $appelOffre->getUser($user);
+        $appelOffre->setUser($user);
         $form = $this->createForm(AjoutAppelsoffresType::class, $appelOffre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $selectedStockIds = $request->request->get('selectedStockIds');
-         dump($request->request->all());
-            die(); // ou exit();
+            $selectedStocks = $appelOffre->getStocks();
+
+            // Associer les stocks sélectionnés à votre objet AppelOffre
+            foreach ($selectedStocks as $stock) {
+                // Assurez-vous que l'entité Stock n'est pas déjà associée à un autre objet AppelOffre
+                if ($stock->getAppelOffre() === null) {
+                    $stock->setAppelOffre($appelOffre);
+                }
+            }
             // Enregistrez les données si nécessaire
             $appelOffre->setEtat('En cours');
             $entityManager->persist($appelOffre);
